@@ -597,7 +597,7 @@ definition {
 			excludedResults = "Should not be returned in search",
 			includedResults = "Depot 1,Depot 2,Depot 3",
 			resultCount = "3",
-			searchTerm = "Depot");
+			searchTerm = "&quot;Depot&quot;");
 
 		DepotNavigator.gotoDepot(depotName = "Depot 1");
 	}
