@@ -56,7 +56,7 @@ definition {
 		task ("View no alert popup when add a web content based on new structure") {
 			NavItem.gotoWebContent();
 
-			WebContentNavigator.gotoAddWithStructureCP(structureName = "${escapedScript}");
+			WebContentNavigator.gotoAddWithStructureCP(structureName = "${actualScript}");
 
 			AssertAlertNotPresent();
 		}
