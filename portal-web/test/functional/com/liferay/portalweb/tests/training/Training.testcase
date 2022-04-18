@@ -18,6 +18,8 @@ definition {
 	@description = "Ensure an administrator can login into portal successfully"
 	@priority = "5"
 	test LoginTest {
+		property portal.acceptance = "training";
+
 		Navigator.openURL();
 
 		Click(locator1 = "UserBar#USER_SIGN_IN");
