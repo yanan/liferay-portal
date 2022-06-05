@@ -8,6 +8,19 @@ definition {
 	setUp {
 		TestCase.setUpPortalInstance();
 
+		task ("Assert object definitions are not exists"){
+			var managerObjectCount = ObjectAdmin.searchObjectByName(objectName = "Manager");
+			var employeeObjectCount = ObjectAdmin.searchObjectByName(objectName = "Employee");
+
+			if ("${managerObjectCount}" != "0") {
+				ObjectAdmin.deleteObjectViaAPI(objectName = "Manager");
+			}
+
+			if("${employeeObjectCount}" != "0"){
+				ObjectAdmin.deleteObjectViaAPI(objectName = "Employee");
+			}
+		}
+
 		task ("Given active object definitions created") {
 			var objectDefinitionId1 = ObjectDefinitionAPI.createAndPublishObjectDefinition(
 				en_US_label = "Manager",

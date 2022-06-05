@@ -991,6 +991,22 @@ definition {
 			value1 = "${search}");
 	}
 
+	macro searchObjectByName {
+		Variables.assertDefined(parameterList = "${objectName}");
+
+		var portalURL = JSONCompany.getDefaultPortalURL();
+
+		var curl = '''
+			${portalURL}/o/object-admin/v1.0/object-definitions?search=${objectName} \
+			-u test@liferay.com:test \
+			-H Content-Type: application/json
+		''';
+
+		var objectCount = JSONCurlUtil.get("${curl}", "$.totalCount");
+
+		return "${objectCount}";
+	}
+
 	macro selectActionsOnRoles {
 		for (var actions : list "${actionsList}") {
 			Click(
