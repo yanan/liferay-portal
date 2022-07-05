@@ -109,4 +109,43 @@ definition {
 		}
 	}
 
+	@description = "Structured content is created in an asset library with structured content id as erc"
+    @priority = "5"
+    test StructuredContentIsCreatedInAssetLibraryWithStructuredContentIdAsErc {
+        property portal.acceptance = "true";
+
+        task ("Given a structured content with custom erc is created with a POST request in asset library") {
+            var depotId = JSONGroupAPI._getDepotIdByName(depotName = "Test Depot Name");
+            var ddmStructureId = WebContentStructures.getDdmStructureId(structureName = "content-structure");
+
+            var response = HeadlessWebcontentAPI.createStructuredContentInAssetLibrary(
+                assetLibraryId = "${depotId}",
+                data = "<p>My content</p>",
+                ddmStructureId = "${ddmStructureId}",
+                label = "Text",
+                name = "Text",
+                title = "WC WebContent Title",
+                externalReferenceCode = "erc");
+        }
+
+        task ("When with POST request I create a structured content with erc equals to the internal id of the previously created structured content") {
+            var customErc = HeadlessWebcontentAPI.getIdFromResponse(responseToParse = "${response}");
+
+            var response = HeadlessWebcontentAPI.createStructuredContentInAssetLibrary(
+                assetLibraryId = "${depotId}",
+                data = "<p>My content</p>",
+                ddmStructureId = "${ddmStructureId}",
+                label = "Text",
+                name = "Text",
+                title = "WC Second WebContent Title",
+                externalReferenceCode = "${customErc}");
+        }
+
+        task ("structured content is being created and I can see erc equals to the previous id in the body response") {
+            HeadlessWebcontentAPI.assertExternalReferenceCodeWithCorrectValue(
+                expectedactualExternalReferenceCodeValueValue = "${customErc}",
+                responseToParse = "${response}");
+        }
+	}
+
 }
