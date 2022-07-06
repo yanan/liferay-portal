@@ -93,6 +93,10 @@ definition {
 		}
 
 		task ("Then the structured content is created properly") {
+			HeadlessWebcontentAPI.assertProperNumberOfItems(
+				expectedTotalElement = "1",
+				responseToParse = "${response}");
+				
 			var structuredContentTitle = HeadlessWebcontentAPI.getStructredContentTitleInAssetLibrary(assetLibraryId = "${depotId}");
 
 			TestUtils.assertEquals(
@@ -174,15 +178,23 @@ definition {
                 ddmStructureId = "${ddmStructureId}",
                 label = "Text",
                 name = "Text",
-                title = "WC WebContent Title",
+                title = "WC Second WebContent Title",
                 externalReferenceCode = "erc");
         }
 
-        task ("Then another structured content with same erc is not being created") {
+        task ("Then I receive duplicate external reference code response") {
 			HeadlessWebcontentAPI.assertPartialTextInResponse(
                 expectedText = "Duplicate 111 journal article external reference code erc",
                 actualText = "${response}");
         }
+
+		task ("Then another structured content with same erc is not being created") {
+			var structuredContentTitle = HeadlessWebcontentAPI.getStructredContentTitleInAssetLibrary(assetLibraryId = "${depotId}");
+
+			TestUtils.assertStructuredContentIdIsFilteredWithCorrectValue.assertEquals(
+				actual = "${structuredContentTitle}",
+				expected = "WC Second WebContent Title");
+		}
 	}
 
 }
