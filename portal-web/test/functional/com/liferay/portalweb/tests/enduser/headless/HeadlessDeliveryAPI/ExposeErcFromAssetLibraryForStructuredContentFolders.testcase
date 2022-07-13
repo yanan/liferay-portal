@@ -50,7 +50,6 @@ definition {
 	@description = "Structured content folder is created in an asset library with erc equals to uuid by default"
 	@priority = "5"
 	test StructuredContentFolderIsCreatedInAssetLibraryWithErcByDefault {
-		property database.types = "mysql";
 		property portal.acceptance = "ashley";
 
 		task ("When with POST request I create a structured content folder without a custom erc") {
@@ -109,7 +108,6 @@ definition {
 	@description = "Sub folder is created with erc equals to uuid by default in structured content folder in asset library"
 	@priority = "5"
 	test SubfolderIsCreatedInStructuredContentInAssetLibraryWithErcByDefault {
-		property database.types = "mysql";
 		property portal.acceptance = "true";
 
 		task ("Given a structured content folder with a custom erc is created with POST request") {
