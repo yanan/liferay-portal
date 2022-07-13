@@ -51,7 +51,7 @@ definition {
 	@priority = "5"
 	test StructuredContentFolderIsCreatedInAssetLibraryWithErcByDefault {
 		property database.types = "mysql";
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When with POST request I create a structured content folder without a custom erc") {
 			var assetLibraryId = JSONGroupAPI._getDepotIdByName(depotName = "Test Depot Name");
