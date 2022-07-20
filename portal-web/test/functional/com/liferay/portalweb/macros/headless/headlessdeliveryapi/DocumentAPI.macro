@@ -30,27 +30,53 @@ definition {
 	}
 
 	macro _updateDocumentByErc {
-		Variables.assertDefined(parameterList = "${externalReferenceCode},${data},${label},${name},${ddmStructureId},${title},${updateExternalReferenceCode}");
+		Variables.assertDefined(parameterList = "${externalReferenceCode}");
 
-		if(!(isSet(assetLibraryId))){
+		if(isSet(assetLibraryId)){
 			var api = "asset-libraries/${assetLibraryId}/documents/by-external-reference-code/${externalReferenceCode}";
 		}
 		else{
 			var api = "asset-libraries/${siteId}/documents/by-external-reference-code/${externalReferenceCode}";
 		}
+
+		if(!(isSet(updateExternalReferenceCode))){
+			var updateExternalReferenceCode="";
+		}
+
+		if(!(isSet(title))){
+			var title="";
+		}
+
+		if(!(isSet(filePath))){
+			var filePath="";
+		}
+
 		var portalURL = JSONCompany.getPortalURL();
 
 		var curl = '''
 			${portalURL}/o/headless-delivery/v1.0/${api} \
 			-u test@liferay.com:test \
-			-H Content-Type: application/json \
-			-F document={"externalReferenceCode": "${externalReferenceCode}", "title": "${title}"}"} \
+			-H Content-Type: multipart/form-data \
+			-F document={"externalReferenceCode": "${updateExternalReferenceCode}", "title": "${title}"}"} \
 			-F file=@${filePath}
 		''';
 
 		var curl = JSONCurlUtil.put("${curl}");
 
 		return "${curl}";
+	}
+
+	macro updateDocumentByErcInAssetLibrary {
+		Variables.assertDefined(parameterList = "${assetLibraryId}");
+
+		var response = DocumentAPI._updateDocumentByErc(
+			assetLibraryId = "${assetLibraryId}",
+			externalReferenceCode = "${externalReferenceCode}",
+			title = "${title}",
+			updateExternalReferenceCode = "${updateExternalReferenceCode}",
+			filePath="${filePath}");
+
+		return "${response}";
 	}
 
 	macro _deleteDocumentsByErcInAssetLibrary {
@@ -176,6 +202,12 @@ definition {
 		var documentId = JSONUtil.getWithJSONPath("${response}", "$.['id']");
 
 		return "${documentId}";
+	}
+
+	macro getTitleOfDocument {
+		var documentTitle = JSONUtil.getWithJSONPath("${responseToParse}", "$.['title']");
+
+		return "${documentTitle}";
 	}
 
 	macro getUuidOfCreatedDocument {
