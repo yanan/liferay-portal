@@ -221,6 +221,32 @@ definition {
 				expected = "No DLFileEntry exists with the key");
 		}
 	}
+	
+	@description = "Document is updated by asset library id and erc"
+	@priority = "5"
+	test CanUpdateDocumentFileInAssetLibraryByErc {
+		property portal.acceptance = "true";
+
+		task ("Given a document with a custom erc is created in asset library with a POST request") {
+			var assetLibraryId = JSONGroupAPI._getDepotIdByName(depotName = "Test Depot Name");
+			var filePath = TestCase.getDependenciesDirPath(fileName = "Document_1.txt");
+
+			var response = DocumentAPI.addDocumentInAssetLibraryByUploadFile(
+				assetLibraryId = "${assetLibraryId}",
+				externalReferenceCode = "erc",
+				filePath = "${filePath}");
+		}
+
+		task ("When I make a PUT request by assetLibraryId and erc") {
+
+		}
+
+		task ("Then the document is correctly updatedAnd Then I receive a correct body response with updated title") {
+			TestUtils.assertPartialEquals(
+				actual = "${response}",
+				expected = "No DLFileEntry exists with the key");
+		}
+	}
 
 	@description = "Document is not able to delete in an asset library by nonexistent erc"
 	@priority = "3"

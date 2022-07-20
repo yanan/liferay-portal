@@ -29,6 +29,30 @@ definition {
 		return "${curl}";
 	}
 
+	macro _updateDocumentByErc {
+		Variables.assertDefined(parameterList = "${externalReferenceCode},${data},${label},${name},${ddmStructureId},${title},${updateExternalReferenceCode}");
+
+		if(!(isSet(assetLibraryId))){
+			var api = "asset-libraries/${assetLibraryId}/documents/by-external-reference-code/${externalReferenceCode}";
+		}
+		else{
+			var api = "asset-libraries/${siteId}/documents/by-external-reference-code/${externalReferenceCode}";
+		}
+		var portalURL = JSONCompany.getPortalURL();
+
+		var curl = '''
+			${portalURL}/o/headless-delivery/v1.0/${api} \
+			-u test@liferay.com:test \
+			-H Content-Type: application/json \
+			-F document={"externalReferenceCode": "${externalReferenceCode}", "title": "${title}"}"} \
+			-F file=@${filePath}
+		''';
+
+		var curl = JSONCurlUtil.put("${curl}");
+
+		return "${curl}";
+	}
+
 	macro _deleteDocumentsByErcInAssetLibrary {
 		Variables.assertDefined(parameterList = "${externalReferenceCode}");
 
