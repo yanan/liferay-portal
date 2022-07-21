@@ -349,9 +349,9 @@ definition {
 
 			var response = DocumentAPI.updateDocumentByErcInAssetLibrary(assetLibraryId = "${assetLibraryId}",
 				externalReferenceCode = "erc",
-				updateExternalReferenceCode ="update-erc",)
+				updateExternalReferenceCode ="update-erc",
 				title = "my title",
-				filePath = "${filePath}";
+				filePath = "${filePath}");
 		}
 
 		task ("Then the erc in the response body is not changed") {
