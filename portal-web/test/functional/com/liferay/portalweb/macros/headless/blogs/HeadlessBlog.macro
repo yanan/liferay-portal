@@ -31,48 +31,20 @@ definition {
 		return "${entryId}";
 	}
 
-	macro assertCommentERCWithCorrectValue {
-		var actualCommentERCValue = JSONUtil.getWithJSONPath("${response}", "$..['items'][?(@.creator)].externalReferenceCode");
+	macro assertProperNumberOfItems {
+		var actualTotalElement = JSONUtil.getWithJSONPath("${responseToParse}", "$..['totalCount']");
 
 		TestUtils.assertEquals(
-			actual = "${actualCommentERCValue}",
-			expected = "${expectedCommentERCValue}");
+			actual = "${actualTotalElement}",
+			expected = "${expectedTotalElement}");
 	}
 
 	macro getAllBlogsPostingId {
-		var response = HeadlessBlogAPI._getAllBlogsPostingId();
+		var response = HeadlessBlogAPI._getBlogsPosting();
 
 		var blogsPostingId = JSONUtil.getWithJSONPath("${response}", "$..['items'][?(@.creator)].id");
 
 		return "${blogsPostingId}";
-	}
-
-	macro getBlogsPostingComment {
-		Variables.assertDefined(parameterList = "${blogsPostingId}");
-
-		var commentsFromBlogsPosting = HeadlessBlogAPI._getBlogsPostingComment(blogsPostingId = "${blogsPostingId}");
-
-		return "${commentsFromBlogsPosting}";
-	}
-
-	macro postBlogsPostingComment {
-		Variables.assertDefined(parameterList = "${blogsPostingId},${textComment}");
-
-		if (!(isSet(commentExternalReferenceCode))) {
-			var commentExternalReferenceCode = "";
-		}
-
-		if (!(isSet(parentCommentId))) {
-			var parentCommentId = "0";
-		}
-
-		var response = HeadlessBlogAPI._postBlogsPostingComment(
-			blogsPostingId = "${blogsPostingId}",
-			commentExternalReferenceCode = "${commentExternalReferenceCode}",
-			parentCommentId = "${parentCommentId}",
-			textComment = "${textComment}");
-
-		return "${response}";
 	}
 
 }
