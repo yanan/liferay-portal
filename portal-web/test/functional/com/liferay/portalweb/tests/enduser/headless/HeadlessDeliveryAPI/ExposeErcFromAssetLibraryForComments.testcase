@@ -1,0 +1,45 @@
+@component-name = "portal-headless-frontend-infrastructure"
+@disable-webdriver = "true"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Headless Frontend Infrastructure";
+
+	setUp {
+		TestCase.setUpPortalInstanceNoSelenium();
+	}
+
+	tearDown {
+		BlogPostingAPI.deleteAllBlogPostings();
+	}
+
+	@priority = "4"
+	test canCreateCommentWithCustomExternalReferenceCode {
+		property portal.acceptance = "true";
+
+		task ("Given blog post is created") {
+			var blogPostingId = BlogPostingAPI.getIdOfCreatedBlogPosting(
+				articleBody = "Blogs Entry Content",
+				headline = "Blogs Title");
+		}
+
+		task ("When with POST request I create a comment with a custom external reference code") {
+			CommentAPI.createCommentOfBlogPosting(
+				blogPostingId = "${blogPostingId}",
+				commentText = "CommentOne",
+				externalReferenceCode = "ercComment");
+		}
+
+		task ("Then I can see the custom external reference code in the body response") {
+			var commentErc = CommentAPI.getFieldValueOfBlogComments(
+				blogPostingId = "${blogPostingId}",
+				fieldName = "$..externalReferenceCode");
+
+			TestUtils.assertEquals(
+				actual = "${commentErc}",
+				expected = "ercComment");
+		}
+	}
+
+}

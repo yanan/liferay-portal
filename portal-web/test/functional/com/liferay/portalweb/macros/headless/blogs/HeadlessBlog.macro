@@ -20,7 +20,6 @@ definition {
 			content = "${content}",
 			coverImageId = "${coverImageId}",
 			description = "${description}",
-			externalReferenceCode = "${externalReferenceCode}",
 			groupId = "${groupId}",
 			subtitle = "${subtitle}",
 			title = "${title}",
@@ -29,22 +28,6 @@ definition {
 			viewableBy = "${viewableBy}");
 
 		return "${entryId}";
-	}
-
-	macro assertProperNumberOfItems {
-		var actualTotalElement = JSONUtil.getWithJSONPath("${responseToParse}", "$..['totalCount']");
-
-		TestUtils.assertEquals(
-			actual = "${actualTotalElement}",
-			expected = "${expectedTotalElement}");
-	}
-
-	macro getAllBlogsPostingId {
-		var response = HeadlessBlogAPI._getBlogsPosting();
-
-		var blogsPostingId = JSONUtil.getWithJSONPath("${response}", "$..['items'][?(@.creator)].id");
-
-		return "${blogsPostingId}";
 	}
 
 }

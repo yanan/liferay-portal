@@ -43,31 +43,55 @@ definition {
 		return "${curl}";
 	}
 
-	macro _getCommentsOfBlogPosting {
+	macro _curlBlogPostingComments {
 		Variables.assertDefined(parameterList = "${blogPostingId}");
 
 		var portalURL = JSONCompany.getPortalURL();
-		var siteId = JSONGroupAPI._getGroupIdByNameNoSelenium(
-			groupName = "Guest",
-			site = "true");
+
 		var curl = '''
 			${portalURL}/o/headless-delivery/v1.0/blog-postings/${blogPostingId}/comments \
-			-u test@liferay.com:test \
-			-H Content-Type: application/json
-	}
-	''';
-
-		var curl = JSONCurlUtil.get("${curl}");
+ 			 	-u test@liferay.com:test \
+				-H Content-Type: application/json
+		''';
 
 		return "${curl}";
 	}
 
-	macro getBlogCommentsText {
-		var response = CommentAPI._getCommentsOfBlogPosting(blogPostingId = "${blogPostingId}");
+	macro createCommentOfBlogPosting {
+		Variables.assertDefined(parameterList = "${commentText}");
 
-		var commentsText = JSONUtil.getWithJSONPath("${response}", "$..text");
+		if (!(isSet(externalReferenceCode))) {
+			var externalReferenceCode = "";
+		}
 
-		return "${commentsText}";
+		if (!(isSet(parentCommentId))) {
+			var parentCommentId = "0";
+		}
+
+		var curl = CommentAPI._curlBlogPostingComments(blogPostingId = "${blogPostingId}");
+		var body = '''-d {
+				"externalReferenceCode": "${externalReferenceCode}",
+				"parentCommentId": "${parentCommentId}",
+				"text": "${commentText}"
+				}''';
+
+		var curl = StringUtil.add("${curl}", "${body}", " ");
+
+		var response = JSONCurlUtil.post("${curl}");
+
+		return "${response}";
+	}
+
+	macro getFieldValueOfBlogComments {
+		Variables.assertDefined(parameterList = "${fieldName}");
+
+		var curl = CommentAPI._curlBlogPostingComments(blogPostingId = "${blogPostingId}");
+
+		var response = JSONCurlUtil.get("${curl}");
+
+		var fieldValue = JSONUtil.getWithJSONPath("${response}", "${fieldName}");
+
+		return "${fieldValue}";
 	}
 
 	macro getIdOfCreateNCommentsInBlogPostingBatchEngineImportTask {
