@@ -146,6 +146,15 @@ public class DocumentResourceTest extends BaseDocumentResourceTestCase {
 	}
 
 	@Override
+	protected Document
+			testDeleteAssetLibraryDocumentByExternalReferenceCode_addDocument()
+		throws Exception {
+
+		return documentResource.postAssetLibraryDocument(
+			testDepotEntry.getDepotEntryId(), randomDocument());
+	}
+
+	@Override
 	protected Long
 			testDeleteAssetLibraryDocumentByExternalReferenceCode_getAssetLibraryId()
 		throws Exception {
