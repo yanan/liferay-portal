@@ -57,7 +57,7 @@ public class CommerceOrderSystemObjectDefinitionMetadata
 
 		return _commerceOrderLocalService.
 			getCommerceOrderByExternalReferenceCode(
-				companyId, externalReferenceCode);
+				externalReferenceCode, companyId);
 	}
 
 	@Override
