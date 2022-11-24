@@ -790,6 +790,33 @@ definition {
 		return "${staticObjectId2}";
 	}
 
+	macro setUpGlobalObjectEntryId {
+		var objectEntryId1 = ObjectDefinitionAPI.createObjectEntryWithName(
+			en_US_plural_label = "foundations",
+			name = "Foundation First");
+		var objectEntryId2 = ObjectDefinitionAPI.createObjectEntryWithName(
+			en_US_plural_label = "foundations",
+			name = "Foundation Second");
+		var objectEntryId3 = ObjectDefinitionAPI.createObjectEntryWithName(
+			en_US_plural_label = "secondFoundations",
+			name = "Foundation First-1");
+		var objectEntryId4 = ObjectDefinitionAPI.createObjectEntryWithName(
+			en_US_plural_label = "secondFoundations",
+			name = "Foundation Second-1");
+		static var staticObjectEntryId1 = "${objectEntryId1}";
+		static var staticObjectEntryId2 = "${objectEntryId2}";
+		static var staticObjectEntryId3 = "${objectEntryId3}";
+		static var staticObjectEntryId4 = "${objectEntryId4}";
+
+		return "${staticObjectEntryId1}";
+
+		return "${staticObjectEntryId2}";
+
+		return "${staticObjectEntryId3}";
+
+		return "${staticObjectEntryId4}";
+	}
+
 	macro updateEmployee {
 		ObjectDefinitionAPI._updateEmployee(
 			employeeId = "${employeeId}",
