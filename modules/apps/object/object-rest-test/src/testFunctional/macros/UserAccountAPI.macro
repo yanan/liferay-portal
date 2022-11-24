@@ -5,6 +5,13 @@ definition {
 
 		if (isSet(userAccountId)) {
 			var api = "user-accounts/${userAccountId}";
+
+			if (isSet(customObjectId)) {
+				var api = "user-accounts/${userAccountId}/${relationshipName}/${customObjectId}";
+			}
+			else {
+				var api = "user-accounts/${userAccountId}/${relationshipName}";
+			}
 		}
 		else {
 			var api = "user-accounts";
@@ -18,6 +25,34 @@ definition {
 		''';
 
 		return "${curl}";
+	}
+
+	macro assertResponseHasCorrectRelatedEntryName {
+		Variables.assertDefined(parameterList = "${userAccountId},${relationshipName},${expectedValue}");
+
+		var response = UserAccountAPI.getRelationshipByUserAccountId(
+			relationshipName = "${relationshipName}",
+			userAccountId = "${userAccountId}");
+
+		var actual = JSONUtil.getWithJSONPath("${response}", "$.items[?(@.id==${customObjectEntryId})].name");
+
+		TestUtils.assertEquals(
+			actual = "${actual}",
+			expected = "${expectedValue}");
+	}
+
+	macro assertResponseNotIncludeDetailsOfDeletedObjectEntry {
+		Variables.assertDefined(parameterList = "${userAccountId},${relationshipName},${expectedValue}");
+
+		var response = UserAccountAPI.getRelationshipByUserAccountId(
+			relationshipName = "${relationshipName}",
+			userAccountId = "${userAccountId}");
+
+		var actual = JSONUtil.getWithJSONPath("${response}", "$..items");
+
+		TestUtils.assertEquals(
+			actual = "${actual}",
+			expected = "${expectedValue}");
 	}
 
 	macro createUserAccount {
@@ -37,10 +72,28 @@ definition {
 		return "${response}";
 	}
 
+	macro deleteRelationship {
+		Variables.assertDefined(parameterList = "${name}");
+
+		var objectDefinitionId = ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "${name}");
+
+		ObjectDefinitionAPI.deleteRelationship(objectDefinitionId = "${objectDefinitionId}");
+	}
+
 	macro deleteUserAccount {
 		var curl = UserAccountAPI._curlUserAccount(userAccountId = "${staticUserAccountId}");
 
 		JSONCurlUtil.delete("${curl}");
+	}
+
+	macro getRelationshipByUserAccountId {
+		var curl = UserAccountAPI._curlUserAccount(
+			relationshipName = "${relationshipName}",
+			userAccountId = "${userAccountId}");
+
+		var response = JSONCurlUtil.get("${curl}");
+
+		return "${response}";
 	}
 
 	macro getUpdatedFieldOfUserAccountWithPatchRequest {
@@ -83,6 +136,19 @@ definition {
 		var valueOfField = JSONCurlUtil.put("${curl}", "$.${fieldName}");
 
 		return "${valueOfField}";
+	}
+
+	macro relateObjectEntries {
+		Variables.assertDefined(parameterList = "${userAccountId},${customObjectId},${relationshipName}");
+
+		var curl = UserAccountAPI._curlUserAccount(
+			customObjectId = "${customObjectId}",
+			relationshipName = "${relationshipName}",
+			userAccountId = "${userAccountId}");
+
+		var response = JSONCurlUtil.put("${curl}");
+
+		return "${response}";
 	}
 
 	macro setUpGlobalUserAccountId {
