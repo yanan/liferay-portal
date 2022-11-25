@@ -66,14 +66,12 @@ definition {
 	}
 
 	tearDown {
-		UserAccountAPI.deleteRelationship(name = "User");
-
 		for (var objectName : list "Foundation,SecondFoundation") {
 			ObjectAdmin.deleteObjectViaAPI(objectName = "${objectName}");
 		}
 
-		for (var userEmailAddress : list "user1@liferay.com,user2@liferay.com") {
-			JSONUser.deleteUserByEmailAddress(userEmailAddress = "${userEmailAddress}");
+		for (var userId : list "${staticUserAccountId1},${staticUserAccountId2}") {
+			JSONUser.deleteUserByUserId(userId = "${userId}");
 		}
 	}
 
