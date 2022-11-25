@@ -34,8 +34,8 @@ definition {
 	}
 
 	tearDown {
-		for (var userEmailAddress : list "userln@liferay.com,user2@liferay.com") {
-			JSONUser.deleteUserByEmailAddress(userEmailAddress = "${userEmailAddress}");
+		for (var userId : list "${staticUserAccountId1},${staticUserAccountId2}") {
+			JSONUser.deleteUserByUserId(userId = "${userId}");
 		}
 
 		ObjectFieldAPI.deleteObjectField();
