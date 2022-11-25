@@ -67,8 +67,8 @@ definition {
 
 	tearDown {
 		for (var relationshipName : list "usersFoundations,userSecondFoundations") {
-			deleteRelationship.deleteRelationship(
-				name = "User",
+			ObjectDefinitionAPI.deleteRelationship(
+				objectDefinitionName = "User",
 				relationshipName = "${relationshipName}");
 		}
 
