@@ -72,14 +72,6 @@ definition {
 		return "${response}";
 	}
 
-	macro deleteRelationship {
-		Variables.assertDefined(parameterList = "${name}");
-
-		var objectDefinitionId = ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "${name}");
-
-		ObjectDefinitionAPI.deleteRelationship(objectDefinitionId = "${objectDefinitionId}");
-	}
-
 	macro getRelationshipByUserAccountId {
 		var curl = UserAccountAPI._curlUserAccount(
 			relationshipName = "${relationshipName}",

@@ -336,8 +336,11 @@ definition {
 			${portalURL}/o/object-admin/v1.0/object-definitions/${objectDefinitionId}/object-relationships \
 			-u test@liferay.com:test
 		''';
-
-		var relationshipId = JSONCurlUtil.get("${curl}", "$..['id']");
+		if(isSet(relationshipName)){
+			var relationshipId = JSONCurlUtil.get("${curl}", "$.items[?(@.name == '${relationshipName}')].id");}
+		}else{
+			var relationshipId = JSONCurlUtil.get("${curl}", "$..['id']");
+		}
 
 		return "${relationshipId}";
 	}
@@ -675,7 +678,11 @@ definition {
 	}
 
 	macro deleteRelationship {
-		var relationshipId = ObjectDefinitionAPI._getRelationshipId(objectDefinitionId = "${objectDefinitionId}");
+		if(isSet(objectDefinitionName)){
+			var objectDefinitionId = ObjectDefinitionAPI.getObjectDefinitionIdByName(objectDefinitionName = "${objectDefinitionName}");
+		}
+
+		var relationshipId = ObjectDefinitionAPI._getRelationshipId(objectDefinitionId = "${objectDefinitionId}",relationshipName ="${relationshipName}");		
 
 		ObjectDefinitionAPI._deleteRelationship(relationshipId = "${relationshipId}");
 	}

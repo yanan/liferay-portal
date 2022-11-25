@@ -66,6 +66,12 @@ definition {
 	}
 
 	tearDown {
+		for (var relationshipName : list "usersFoundations,userSecondFoundations") {
+			deleteRelationship.deleteRelationship(
+				name = "User",
+				relationshipName = "${relationshipName}");
+		}
+
 		for (var objectName : list "Foundation,SecondFoundation") {
 			ObjectAdmin.deleteObjectViaAPI(objectName = "${objectName}");
 		}
@@ -81,6 +87,8 @@ definition {
 		property portal.acceptance = "true";
 
 		task ("Given each foundation is related to each userAccount through userAccounts PUT endpoint") {
+			ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "User");
+
 			UserAccountAPI.relateObjectEntries(
 				customObjectId = "${staticObjectEntryId1}",
 				relationshipName = "usersFoundations",
@@ -118,6 +126,8 @@ definition {
 		property portal.acceptance = "true";
 
 		task ("Given I relate all the foundation entries with the userAccount entry through the userAccount PUT endpoint") {
+			ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "User");
+
 			UserAccountAPI.relateObjectEntries(
 				customObjectId = "${staticObjectEntryId3}",
 				relationshipName = "userSecondFoundations",
@@ -150,6 +160,8 @@ definition {
 		property portal.acceptance = "true";
 
 		task ("When I relate each foundation entry with the userAccount entry through the userAccount PUT endpoint with different relationships") {
+			ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "User");
+
 			UserAccountAPI.relateObjectEntries(
 				customObjectId = "${staticObjectEntryId1}",
 				relationshipName = "usersFoundations",
@@ -182,6 +194,8 @@ definition {
 		property portal.acceptance = "true";
 
 		task ("When each foundation is related to each userAccount through userAccounts PUT endpoint") {
+			ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "User");
+
 			UserAccountAPI.relateObjectEntries(
 				customObjectId = "${staticObjectEntryId1}",
 				relationshipName = "usersFoundations",
@@ -214,6 +228,8 @@ definition {
 		property portal.acceptance = "true";
 
 		task ("Given each foundation is related to each userAccount through userAccounts PUT endpoint") {
+			ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "User");
+
 			UserAccountAPI.relateObjectEntries(
 				customObjectId = "${staticObjectEntryId1}",
 				relationshipName = "usersFoundations",
