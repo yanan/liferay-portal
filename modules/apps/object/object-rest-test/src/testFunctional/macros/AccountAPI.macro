@@ -4,7 +4,11 @@ definition {
 		var portalURL = JSONCompany.getPortalURL();
 
 		if (isSet(accountId)) {
-		 	var api = "accounts/${accountId}";
+			var api = "accounts/${accountId}";
+
+			if (isSet(relationshipName)) {
+				var api = "accounts/${accountId}/${relationshipName}";
+			}
 		}
 		else {
 			var api = "accounts";
@@ -20,123 +24,53 @@ definition {
 		return "${curl}";
 	}
 
-	macro assertResponseHasCorrectRelatedEntryName {
-		Variables.assertDefined(parameterList = "${userAccountId},${relationshipName},${expectedValue}");
-
-		var response = UserAccountAPI.getRelationshipByUserAccountId(
-			relationshipName = "${relationshipName}",
-			userAccountId = "${userAccountId}");
-
-		var actual = JSONUtil.getWithJSONPath("${response}", "$.items[?(@.id==${customObjectEntryId})].name");
-
-		TestUtils.assertEquals(
-			actual = "${actual}",
-			expected = "${expectedValue}");
-	}
-
-	macro assertResponseNotIncludeDetailsOfDeletedObjectEntry {
-		Variables.assertDefined(parameterList = "${userAccountId},${relationshipName},${expectedValue}");
-
-		var response = UserAccountAPI.getRelationshipByUserAccountId(
-			relationshipName = "${relationshipName}",
-			userAccountId = "${userAccountId}");
-
-		var actual = JSONUtil.getWithJSONPath("${response}", "$..items");
-
-		TestUtils.assertEquals(
-			actual = "${actual}",
-			expected = "${expectedValue}");
-	}
-
 	macro createAccount {
 		Variables.assertDefined(parameterList = "${name}");
 
 		var curl = AccountAPI._curlAccount();
 		var body = '''"name": "${name}"''';
 
-		// if (isSet(fieldName) && isSet(fieldValue)) {
-		// 	var body = StringUtil.add("${body},", "\"${fieldName}\":\"${fieldValue}\"", "");
-		// }
-
-		// var curl = StringUtil.add("${curl}", "-d {${body}}", " ");
+		var curl = StringUtil.add("${curl}", "-d {${body}}", " ");
 
 		var response = JSONCurlUtil.post("${curl}");
 
-		return "${response}";
+		var accountId = JSONUtil.getWithJSONPath("${response}", "$..id");
+
+		return "${accountId}";
 	}
 
 	macro deleteAccount {
 		Variables.assertDefined(parameterList = "${accountId}");
 
-		var curl = AccountAPI._curlAccount(accountId="${accountId}");
+		var curl = AccountAPI._curlAccount(accountId = "${accountId}");
 
-		JSONCurlUtil.post("${curl}");
+		JSONCurlUtil.delete("${curl}");
 	}
 
-	macro deleteRelationship {
-		Variables.assertDefined(parameterList = "${name}");
-
-		var objectDefinitionId = ObjectDefinitionAPI.getObjectDefinitionIdByName(name = "${name}");
-
-		ObjectDefinitionAPI.deleteRelationship(objectDefinitionId = "${objectDefinitionId}");
-	}
-
-	macro getRelationshipByUserAccountId {
-		var curl = UserAccountAPI._curlUserAccount(
-			relationshipName = "${relationshipName}",
-			userAccountId = "${userAccountId}");
+	macro getRelationshipByAccountId {
+		var curl = AccountAPI._curlAccount(
+			accountId = "${accountId}",
+			relationshipName = "${relationshipName}");
 
 		var response = JSONCurlUtil.get("${curl}");
 
 		return "${response}";
 	}
 
-	macro getUpdatedFieldOfUserAccountWithPatchRequest {
-		Variables.assertDefined(parameterList = "${fieldName},${updatedFieldValue}");
+	macro putAccountRelationship {
+		var curl = AccountAPI._curlAccount(
+			accountId = "${accountId}",
+			relationshipName = "${relationshipName}");
 
-		if (!(isSet(userAccountId))) {
-			var userAccountId = "${UserAccountId}";
-		}
+		var response = JSONCurlUtil.put("${curl}");
 
-		var curl = UserAccountAPI._curlUserAccount(userAccountId = "${userAccountId}");
-		var body = '''-d {"${fieldName}":"${updatedFieldValue}"}''';
-
-		var curl = StringUtil.add("${curl}", "${body}", "");
-
-		var valueOfField = JSONCurlUtil.patch("${curl}", "$.${fieldName}");
-
-		return "${valueOfField}";
-	}
-
-	macro getUpdatedFieldOfUserAccountWithPutRequest {
-		Variables.assertDefined(parameterList = "${alternateName},${emailAddress},${familyName},${givenName},${fieldName},${updatedFieldValue}");
-
-		if (!(isSet(userAccountId))) {
-			var userAccountId = "${UserAccountId}";
-		}
-
-		var curl = UserAccountAPI._curlUserAccount(userAccountId = "${userAccountId}");
-		var body = '''
-			-d {
-				"alternateName": "${alternateName}",
-				"emailAddress": "${emailAddress}",
-				"familyName": "${familyName}",
-				"givenName": "${givenName}",
-				"${fieldName}":"${updatedFieldValue}"
-			}
-		''';
-
-		var curl = StringUtil.add("${curl}", "${body}", "");
-
-		var valueOfField = JSONCurlUtil.put("${curl}", "$.${fieldName}");
-
-		return "${valueOfField}";
+		return "${response}";
 	}
 
 	macro relateObjectEntries {
 		Variables.assertDefined(parameterList = "${userAccountId},${customObjectId},${relationshipName}");
 
-		var curl = UserAccountAPI._curlUserAccount(
+		var curl = AccountAPI._curlAccount(
 			customObjectId = "${customObjectId}",
 			relationshipName = "${relationshipName}",
 			userAccountId = "${userAccountId}");
@@ -144,35 +78,6 @@ definition {
 		var response = JSONCurlUtil.put("${curl}");
 
 		return "${response}";
-	}
-
-	macro setUpGlobalUserAccountId {
-		var response1 = UserAccountAPI.createUserAccount(
-			alternateName = "${alternateName1}",
-			emailAddress = "${emailAddress1}",
-			familyName = "${familyName1}",
-			fieldName = "${fieldName1}",
-			fieldValue = "${fieldValue1}",
-			givenName = "${givenName1}");
-		var response2 = UserAccountAPI.createUserAccount(
-			alternateName = "${alternateName2}",
-			emailAddress = "${emailAddress2}",
-			familyName = "${familyName2}",
-			fieldName = "${fieldName2}",
-			fieldValue = "${fieldValue2}",
-			givenName = "${givenName2}");
-		static var staticUserAccountId1 = JSONUtil.getWithJSONPath("${response1}", "$.id");
-		static var staticUserAccountId2 = JSONUtil.getWithJSONPath("${response2}", "$.id");
-		static var staticResponse1 = "${response1}";
-		static var staticResponse2 = "${response2}";
-
-		return "${staticResponse1}";
-
-		return "${staticResponse2}";
-
-		return "${staticUserAccountId1}";
-
-		return "${staticUserAccountId2}";
 	}
 
 }
