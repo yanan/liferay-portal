@@ -1,7 +1,7 @@
 {
   "callbackURL": null,
   "companyId": 20097,
-  "className": "com.liferay.headless.delivery.dto.v1_0.BlogPosting",
+  "className": "com.liferay.headless.delivery.dto.v1_0.StructuredContent",
   "parameters": {
     "siteId": 20121,
     "createStrategy": "UPSERT"
