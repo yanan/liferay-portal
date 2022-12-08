@@ -15,46 +15,34 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		// if ("${testPortalInstance}" == "true") {
-		// 	PortalInstances.tearDownCP();
-		// }else{
-		// 	BlogPostingAPI.deleteAllBlogPostings();
-		// }
+		if ("${testPortalInstance}" == "true") {
+			PortalInstances.tearDownCP();
+		}else{
+			BlogPostingAPI.deleteAllBlogPostings();
+		}
 	}
 
 	@priority = "4"
 	test CanAutoDeployBlogPostingZipWithCsv {
 		property portal.acceptance = "true";
 
-		task ("Given a BlogPosting.zip file with siteId") {
-			var siteId = JSONGroupAPI._getGroupIdByNameNoSelenium(
-				groupName = "Guest",
-				site = "true");
-			
-		}
-
 		task ("When I add it to deploy folder") {
-			var zipFile = "test.zip";
+			var zipFile = "BlogPosting.zip";
 
-
-			//FileUtil.copyFileFromResource(resourceName ="${zipFile}", targetFilePath="/home/liferay/github/portal/bundles/");
-			FileInstall.deployFileOnServer(jarFile = "${zipFile}");
-			//FragmentsDeploy.deployZipOnLiferayPortal(fragmentsZip = "${zipFile}");
+			FragmentsDeploy.deployZipOnLiferayPortal(fragmentsZip = "${zipFile}");
 
 			WaitForConsoleTextPresent(value1 = "Processing ${zipFile}");
-
-			WaitForConsoleTextPresent(value1 = "12345678");
 		}
 
-		//task ("Then all blog postings are imported	") {
-			//var response = BlogPostingAPI.getBlogPostings();
+		task ("Then all blog postings are imported	") {
+			var response = BlogPostingAPI.getBlogPostings();
 
-			//var blogTotalCount = JSONUtil.getWithJSONPath("${response}", "$..totalCount");
+			var blogTotalCount = JSONUtil.getWithJSONPath("${response}", "$..totalCount");
 
-			//TestUtils.assertEquals(
-			//	actual = "${blogTotalCount}",
-			//	expected = "2");
-		//}
+			TestUtils.assertEquals(
+				actual = "${blogTotalCount}",
+				expected = "2");
+		}
 	}
 
 }
