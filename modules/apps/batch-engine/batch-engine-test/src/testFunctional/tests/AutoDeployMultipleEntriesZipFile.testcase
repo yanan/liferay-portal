@@ -1,0 +1,60 @@
+@component-name = "portal-batch-engine"
+definition {
+
+	property custom.properties = "feature.flag.COMMERCE-8087=true";
+	property portal.release = "false";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Batch Engine";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		// if ("${testPortalInstance}" == "true") {
+		// 	PortalInstances.tearDownCP();
+		// }else{
+		// 	BlogPostingAPI.deleteAllBlogPostings();
+		// }
+	}
+
+	@priority = "4"
+	test CanAutoDeployBlogPostingZipWithCsv {
+		property portal.acceptance = "true";
+
+		task ("Given a BlogPosting.zip file with siteId") {
+			var siteId = JSONGroupAPI._getGroupIdByNameNoSelenium(
+				groupName = "Guest",
+				site = "true");
+			
+		}
+
+		task ("When I add it to deploy folder") {
+			var zipFile = "test.zip";
+
+
+			//FileUtil.copyFileFromResource(resourceName ="${zipFile}", targetFilePath="/home/liferay/github/portal/bundles/");
+			FileInstall.deployFileOnServer(jarFile = "${zipFile}");
+			//FragmentsDeploy.deployZipOnLiferayPortal(fragmentsZip = "${zipFile}");
+
+			WaitForConsoleTextPresent(value1 = "Processing ${zipFile}");
+
+			WaitForConsoleTextPresent(value1 = "12345678");
+		}
+
+		//task ("Then all blog postings are imported	") {
+			//var response = BlogPostingAPI.getBlogPostings();
+
+			//var blogTotalCount = JSONUtil.getWithJSONPath("${response}", "$..totalCount");
+
+			//TestUtils.assertEquals(
+			//	actual = "${blogTotalCount}",
+			//	expected = "2");
+		//}
+	}
+
+}
