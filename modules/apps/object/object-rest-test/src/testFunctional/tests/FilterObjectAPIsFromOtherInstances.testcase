@@ -9,34 +9,34 @@ definition {
 	setUp {
 		TestCase.setUpPortalInstanceNoSelenium();
 
-		task ("Given two new virtual instances www.first.com and www.second.com are created") {
+		task ("Given two new virtual instances www.able.com and www.baker.com are created") {
 			HeadlessPortalInstanceAPI.addPortalInstance(
 				domain = "liferay.com",
-				portalInstanceId = "www.first.com",
-				virtualHost = "www.first.com");
+				portalInstanceId = "www.able.com",
+				virtualHost = "www.able.com");
 
 			HeadlessPortalInstanceAPI.addPortalInstance(
 				domain = "liferay.com",
-				portalInstanceId = "www.second.com",
-				virtualHost = "www.second.com");
+				portalInstanceId = "www.baker.com",
+				virtualHost = "www.baker.com");
 		}
 
-		task ("And Given objectDefinition Subject created and published in www.second.com instance") {
-			ObjectDefinitionAPI.createAndPublishObjectDefinition(
-				en_US_label = "Subject",
-				en_US_plural_label = "Subjects",
-				name = "Subject",
-				requiredStringFieldName = "name",
-				virtualHost = "www.second.com");
-		}
-
-		task ("And Given objectDefinition University created and published in www.first.com instance") {
+		task ("And Given objectDefinition University created and published in www.able.com instance") {
 			ObjectDefinitionAPI.createAndPublishObjectDefinition(
 				en_US_label = "University",
 				en_US_plural_label = "Universities",
 				name = "University",
 				requiredStringFieldName = "firstname",
-				virtualHost = "www.first.com");
+				virtualHost = "www.able.com");
+		}
+
+		task ("And Given objectDefinition Subject created and published in www.baker.com instance") {
+			ObjectDefinitionAPI.createAndPublishObjectDefinition(
+				en_US_label = "Subject",
+				en_US_plural_label = "Subjects",
+				name = "Subject",
+				requiredStringFieldName = "name",
+				virtualHost = "www.baker.com");
 		}
 	}
 
@@ -54,24 +54,24 @@ definition {
 	test CanGetObjectEndponitsFromCurrentInstance {
 		property portal.acceptance = "true";
 
-		task ("When requesting GET "/o/c/subjects" from www.second.com instance") {
+		task ("When requesting GET "/o/c/subjects" from www.baker.com instance") {
 			var response = ObjectDefinitionAPI.getObjectEntries(
 				en_US_plural_label = "subjects",
-				virtualHost = "www.second.com");
+				virtualHost = "www.baker.com");
 		}
 
-		task ("Then I can get a correct response with www.second.com:8080/o/c/subjects href in actions") {
+		task ("Then I can get a correct response with www.baker.com:8080/o/c/subjects href in actions") {
 			var actualValue = JSONUtil.getWithJSONPath("${response}", "$.actions.create.href");
 
 			TestUtils.assertEquals(
 				actual = "${actualValue}",
-				expected = "http://www.second.com:8080/o/c/subjects/");
+				expected = "http://www.baker.com:8080/o/c/subjects/");
 		}
 
-		task ("And Then the information of www.second.com:8080/o/c/univeristies is not found") {
+		task ("And Then the information of www.baker.com:8080/o/c/univeristies is not found") {
 			var response = ObjectDefinitionAPI.getObjectEntries(
 				en_US_plural_label = "universities",
-				virtualHost = "www.second.com");
+				virtualHost = "www.baker.com");
 
 			TestUtils.assertPartialEquals(
 				actual = "${response}",
@@ -84,24 +84,24 @@ definition {
 	test CannotGetObjectEndponitsFromOtherInstance {
 		property portal.acceptance = "true";
 
-		task ("When requesting GET "/o/c/universities" from www.first.com instance") {
+		task ("When requesting GET "/o/c/universities" from www.able.com instance") {
 			var response = ObjectDefinitionAPI.getObjectEntries(
 				en_US_plural_label = "universities",
-				virtualHost = "www.first.com");
+				virtualHost = "www.able.com");
 		}
 
-		task ("Then I can get a correct response with www.first.com:8080/o/c/universities href in actions") {
+		task ("Then I can get a correct response with www.able.com:8080/o/c/universities href in actions") {
 			var actualValue = JSONUtil.getWithJSONPath("${response}", "$.actions.create.href");
 
 			TestUtils.assertEquals(
 				actual = "${actualValue}",
-				expected = "http://www.first.com:8080/o/c/universities/");
+				expected = "http://www.able.com:8080/o/c/universities/");
 		}
 
-		task ("And Then the information of www.first.com:8080/o/c/subjects is not found") {
+		task ("And Then the information of www.able.com:8080/o/c/subjects is not found") {
 			var response = ObjectDefinitionAPI.getObjectEntries(
 				en_US_plural_label = "subjects",
-				virtualHost = "www.first.com");
+				virtualHost = "www.able.com");
 
 			TestUtils.assertPartialEquals(
 				actual = "${response}",
@@ -134,17 +134,17 @@ definition {
 				secondFieldValue = "The other field in Default Instance");
 		}
 
-		task ("And Given Subject entry created in www.second.com instances") {
+		task ("And Given Subject entry created in www.baker.com instances") {
 			ObjectDefinitionAPI.createObjectEntryWithName(
 				en_US_plural_label = "subjects",
 				name = "Object Entry in Second Instance",
-				virtualHost = "www.second.com");
+				virtualHost = "www.baker.com");
 		}
 
-		task ("When requesting GET www.second.com/o/c/subjects") {
+		task ("When requesting GET www.baker.com/o/c/subjects") {
 			var response = ObjectDefinitionAPI.getObjectEntries(
 				en_US_plural_label = "subjects",
-				virtualHost = "www.second.com");
+				virtualHost = "www.baker.com");
 		}
 
 		task ("Then I can see one Subject entry with its name correctly related") {
