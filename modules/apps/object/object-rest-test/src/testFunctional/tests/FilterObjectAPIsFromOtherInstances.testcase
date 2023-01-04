@@ -21,15 +21,6 @@ definition {
 				virtualHost = "www.second.com");
 		}
 
-		task ("And Given objectDefinition University created and published in www.first.com instance") {
-			ObjectDefinitionAPI.createAndPublishObjectDefinition(
-				en_US_label = "University",
-				en_US_plural_label = "Universities",
-				name = "University",
-				requiredStringFieldName = "firstname",
-				virtualHost = "www.first.com");
-		}
-
 		task ("And Given objectDefinition Subject created and published in www.second.com instance") {
 			ObjectDefinitionAPI.createAndPublishObjectDefinition(
 				en_US_label = "Subject",
@@ -37,6 +28,15 @@ definition {
 				name = "Subject",
 				requiredStringFieldName = "name",
 				virtualHost = "www.second.com");
+		}
+
+		task ("And Given objectDefinition University created and published in www.first.com instance") {
+			ObjectDefinitionAPI.createAndPublishObjectDefinition(
+				en_US_label = "University",
+				en_US_plural_label = "Universities",
+				name = "University",
+				requiredStringFieldName = "firstname",
+				virtualHost = "www.first.com");
 		}
 	}
 
