@@ -9,8 +9,6 @@ definition {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
-
-		BatchEngine.setUpGlobalIds();
 	}
 
 	tearDown {
@@ -38,12 +36,9 @@ definition {
 
 		task ("Given a blogPosting.zip file") {
 			var filePath = BatchEngine.copyDependenciesDirToFolder(file = "blogPosting");
+			var siteId = JSONGroupAPI._getSiteIdByGroupKey(groupName = "Guest");
 
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20097", "${staticCompanyId}");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20125", "${staticUserId}");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20121", "${staticSiteId}");
+			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20121", "${siteId}");
 
 			var arhivedFilePath = BatchEngine.archiveAndDeleteOriginalFile(
 				fileNameWithExtension = "blogPosting.zip",
@@ -73,22 +68,11 @@ definition {
 
 		task ("Given a multipleBatchPairs.zip file including blog and object definition") {
 			var filePath = BatchEngine.copyDependenciesDirToFolder(file = "multipleElementsParis");
+			var siteId = JSONGroupAPI._getSiteIdByGroupKey(groupName = "Guest");
 
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20097", "${staticCompanyId}");
+			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20121", "${siteId}");
 
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20125", "${staticUserId}");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20121", "${staticSiteId}");
-
-			FileUtil.replaceStringInFile("${filePath}/blog/batch-engine.json", "20097", "${staticCompanyId}");
-
-			FileUtil.replaceStringInFile("${filePath}/blog/batch-engine.json", "20125", "${staticUserId}");
-
-			FileUtil.replaceStringInFile("${filePath}/blog/batch-engine.json", "20121", "${staticSiteId}");
-
-			FileUtil.replaceStringInFile("${filePath}/object/objectDefinition/batch-engine.json", "20097", "${staticCompanyId}");
-
-			FileUtil.replaceStringInFile("${filePath}/object/objectDefinition/batch-engine.json", "20125", "${staticUserId}");
+			FileUtil.replaceStringInFile("${filePath}/blog/batch-engine.json", "20121", "${siteId}");
 
 			var arhivedFilePath = BatchEngine.archiveAndDeleteOriginalFile(
 				fileNameWithExtension = "multipleElementsParis.zip",
@@ -126,10 +110,6 @@ definition {
 
 		task ("Given an objectDefinition.zip file") {
 			var filePath = BatchEngine.copyDependenciesDirToFolder(file = "objectDefinition");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20097", "${staticCompanyId}");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20125", "${staticUserId}");
 
 			var arhivedFilePath = BatchEngine.archiveAndDeleteOriginalFile(
 				fileNameWithExtension = "objectDefinition.zip",
@@ -179,12 +159,9 @@ definition {
 		task ("Given a Structured.zip file with content structure id and siteId") {
 			var filePath = BatchEngine.copyDependenciesDirToFolder(file = "structuredContent");
 			var ddmStructureId = WebContentStructures.getDdmStructureId(structureName = "content-structure");
+			var siteId = JSONGroupAPI._getSiteIdByGroupKey(groupName = "Guest");
 
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20097", "${staticCompanyId}");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20125", "${staticUserId}");
-
-			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20121", "${staticSiteId}");
+			FileUtil.replaceStringInFile("${filePath}/batch-engine.json", "20121", "${siteId}");
 
 			FileUtil.replaceStringInFile("${filePath}/export.json", "43787", "${ddmStructureId}");
 
