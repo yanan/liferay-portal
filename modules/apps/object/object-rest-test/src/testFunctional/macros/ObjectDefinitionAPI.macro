@@ -856,6 +856,20 @@ definition {
 		return ${getObjectsWithNestedFieldJSON};
 	}
 
+	macro getPortalInstance {
+		var portalURL = JSONCompany.getPortalURL();
+
+		var curl = '''
+			${portalURL}/o/headless-portal-instances/v1.0/portal-instances \
+				-H Content-Type: application/json \
+				-u test@liferay.com:test
+		''';
+
+		var response = JSONCurlUtil.get(${curl});
+
+		return ${response};
+	}
+
 	macro modifyRelationship {
 		var objectDefinitionId = JSONObject.getObjectId(objectName = ${objectName});
 

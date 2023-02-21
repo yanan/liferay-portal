@@ -136,4 +136,18 @@ definition {
 		}
 	}
 
+	@disable-webdriver = "true"
+	@priority = 4
+	test PortalInstanceNum {
+		property portal.acceptance = "true";
+
+		task ("When invoking getPortalInstancesPage") {
+			var response = ObjectDefinitionAPI.getPortalInstance();
+		}
+
+		task ("Then echo instance response") {
+			echo(${response});
+		}
+	}
+
 }
