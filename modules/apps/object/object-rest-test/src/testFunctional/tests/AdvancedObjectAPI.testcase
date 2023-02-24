@@ -9,6 +9,7 @@ definition {
 	setUp {
 		TestCase.setUpPortalInstanceNoSelenium();
 
+		echo("1111111111");
 		task ("Given active object definitions created") {
 			var objectDefinitionId1 = ObjectDefinitionAPI.createAndPublishObjectDefinition(
 				en_US_label = "Manager",
