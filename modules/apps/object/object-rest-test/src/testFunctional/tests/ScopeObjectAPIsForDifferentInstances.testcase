@@ -9,8 +9,9 @@ definition {
 	property portal.acceptance = "ashley";
 
 	setUp {
-		TestCase.setUpPortalInstance();
-
+		//TestCase.setUpPortalInstance();
+		SignIn.signInTestSetup();
+		
 		task ("Add OAuth application and edit OAuth scopes on default instance") {
 			OAuth2ForObject.addAuth2Application();
 
