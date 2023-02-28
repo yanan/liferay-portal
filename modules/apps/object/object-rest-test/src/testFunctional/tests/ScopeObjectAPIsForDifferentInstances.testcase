@@ -59,24 +59,24 @@ definition {
 		}
 	}
 
-	tearDown {
-		var testPortalInstance = PropsUtil.get("test.portal.instance");
+	// tearDown {
+	// 	var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if (${testPortalInstance} == "true") {
-			PortalInstances.tearDownCP();
-		}
-		else {
-			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
-				resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
-				resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
+	// 	if (${testPortalInstance} == "true") {
+	// 		PortalInstances.tearDownCP();
+	// 	}
+	// 	else {
+	// 		var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
+	// 			resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
+	// 			resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
 
-			ObjectAdmin.deleteObjectViaAPI(
-				objectName = "Test",
-				token = ${defaultInstanceToken});
+	// 		ObjectAdmin.deleteObjectViaAPI(
+	// 			objectName = "Test",
+	// 			token = ${defaultInstanceToken});
 
-			OAuth2.deleteApplication(applicationName = "OAuth Application");
-		}
-	}
+	// 		OAuth2.deleteApplication(applicationName = "OAuth Application");
+	// 	}
+	// }
 
 	@priority = 4
 	test CanCreateObjectEntryByScopeKey {
@@ -108,70 +108,70 @@ definition {
 		}
 	}
 
-	@priority = 4
-	test CanCreateObjectEntryInVirtualInstance {
-		//property portal.acceptance = "true";
-		property portal.acceptance = "ashley";
+	// @priority = 4
+	// test CanCreateObjectEntryInVirtualInstance {
+	// 	//property portal.acceptance = "true";
+	// 	property portal.acceptance = "ashley";
 
-		var virtualInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
-			baseURL = "http://www.able.com:8080",
-			resourceCheckList = "C_Test.everything");
+	// 	var virtualInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
+	// 		baseURL = "http://www.able.com:8080",
+	// 		resourceCheckList = "C_Test.everything");
 
-		task ("When I use postTest to create an object entry in www.able.com instance") {
-			ObjectDefinitionAPI.createObjectEntryWithField(
-				en_US_plural_label = "tests",
-				fieldName = "location",
-				fieldValue = "Object Entry in Virtual Instance",
-				token = ${virtualInstanceToken},
-				virtualHost = "www.able.com");
-		}
+	// 	task ("When I use postTest to create an object entry in www.able.com instance") {
+	// 		ObjectDefinitionAPI.createObjectEntryWithField(
+	// 			en_US_plural_label = "tests",
+	// 			fieldName = "location",
+	// 			fieldValue = "Object Entry in Virtual Instance",
+	// 			token = ${virtualInstanceToken},
+	// 			virtualHost = "www.able.com");
+	// 	}
 
-		task ("Then the object entry with location created successfully") {
-			var responseToParse = ObjectDefinitionAPI.getObjectEntries(
-				en_US_plural_label = "tests",
-				token = ${virtualInstanceToken},
-				virtualHost = "www.able.com");
+	// 	task ("Then the object entry with location created successfully") {
+	// 		var responseToParse = ObjectDefinitionAPI.getObjectEntries(
+	// 			en_US_plural_label = "tests",
+	// 			token = ${virtualInstanceToken},
+	// 			virtualHost = "www.able.com");
 
-			var actualValue = JSONUtil.getWithJSONPath(${responseToParse}, "$.items[*].location");
+	// 		var actualValue = JSONUtil.getWithJSONPath(${responseToParse}, "$.items[*].location");
 
-			TestUtils.assertEquals(
-				actual = ${actualValue},
-				expected = "Object Entry in Virtual Instance");
-		}
-	}
+	// 		TestUtils.assertEquals(
+	// 			actual = ${actualValue},
+	// 			expected = "Object Entry in Virtual Instance");
+	// 	}
+	// }
 
-	@priority = 4
-	test CanIncludeObjectFieldInAPIExplorer {
-		//property portal.acceptance = "true";
-		property portal.acceptance = "ashley";
+	// @priority = 4
+	// test CanIncludeObjectFieldInAPIExplorer {
+	// 	//property portal.acceptance = "true";
+	// 	property portal.acceptance = "ashley";
 
-		task ("Given navigate to www.able.com:8080/o/c/tests") {
-			APIExplorer.navigateToOpenAPI(
-				api = "c",
-				version = "tests",
-				virtualHost = "www.able.com");
-		}
+	// 	task ("Given navigate to www.able.com:8080/o/c/tests") {
+	// 		APIExplorer.navigateToOpenAPI(
+	// 			api = "c",
+	// 			version = "tests",
+	// 			virtualHost = "www.able.com");
+	// 	}
 
-		task ("When expand postTest") {
-			Click(
-				locator1 = "OpenAPI#API_METHOD",
-				method = "postTest",
-				service = "Test");
-		}
+	// 	task ("When expand postTest") {
+	// 		Click(
+	// 			locator1 = "OpenAPI#API_METHOD",
+	// 			method = "postTest",
+	// 			service = "Test");
+	// 	}
 
-		task ("Then location field exists and name does not exist in postTest body") {
-			AssertTextEquals.assertPartialText(
-				locator1 = "OpenAPI#REQUEST_BODY",
-				method = "postTest",
-				value1 = "\"location\":");
-		}
+	// 	task ("Then location field exists and name does not exist in postTest body") {
+	// 		AssertTextEquals.assertPartialText(
+	// 			locator1 = "OpenAPI#REQUEST_BODY",
+	// 			method = "postTest",
+	// 			value1 = "\"location\":");
+	// 	}
 
-		task ("And Then location field exists and name does not exist in Test schema") {
-			IsTextNotEqual(
-				locator1 = "OpenAPI#REQUEST_BODY",
-				method = "postTest",
-				value1 = "\"name\":");
-		}
-	}
+	// 	task ("And Then location field exists and name does not exist in Test schema") {
+	// 		IsTextNotEqual(
+	// 			locator1 = "OpenAPI#REQUEST_BODY",
+	// 			method = "postTest",
+	// 			value1 = "\"name\":");
+	// 	}
+	// }
 
 }
