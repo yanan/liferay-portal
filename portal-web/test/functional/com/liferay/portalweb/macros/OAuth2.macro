@@ -336,6 +336,11 @@ definition {
 			locator1 = "NavBar#NAV_ITEM_LINK",
 			value1 = "Scopes");
 
+		takeScreenshot();
+		echo("11111");
+		Refresh();
+		takeScreenshot();
+
 		AssertElementPresent(
 			key_navItem = "Scopes",
 			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");

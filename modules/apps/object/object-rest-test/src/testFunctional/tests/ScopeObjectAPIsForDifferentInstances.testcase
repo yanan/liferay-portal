@@ -17,6 +17,8 @@ definition {
 		task ("Add OAuth application and edit OAuth scopes on default instance") {
 			OAuth2ForObject.addAuth2Application();
 
+			SearchAdministration.executeReindex();
+
 			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
 				resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
 				resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");

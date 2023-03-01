@@ -386,9 +386,6 @@ definition {
 		}
 
 		Open(locator1 = "${baseURL}/${urlAppend}");
-
-		echo("222");
-		echo("${baseURL}/${urlAppend}");
 	}
 
 	macro selectSpecificWindow {

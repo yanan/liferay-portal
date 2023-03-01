@@ -6,8 +6,6 @@ definition {
 		}
 		else {
 			var baseURL = PropsUtil.get("portal.url");
-			echo("11111");
-			echo("${baseURL}");
 		}
 
 		OAuth2.openOAuth2Admin(baseURL = ${baseURL});
@@ -34,6 +32,8 @@ definition {
 			applicationName = "OAuth Application",
 			resourceCheckList = ${resourceCheckList},
 			resourcePanels = ${resourcePanels});
+
+		takeScreenshot();
 
 		var accessToken = OAuth2.getAccessToken(
 			client_id = "myApplication",
