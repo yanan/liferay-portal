@@ -1,7 +1,7 @@
 @component-name = "portal-headless"
 definition {
 
-	property custom.properties = "include-and-override=portal-liferay-online.properties";
+	property custom.properties = "include-and-override=portal-liferay-online.properties${line.separator}virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
 	property portal.release = "true";
 	property portal.upstream = "true";
 	property testray.main.component.name = "Headless";
@@ -72,8 +72,6 @@ definition {
 		}
 	}
 
-	@description = "Ignore tests since Oauth scopes problems in LPS-169916"
-	@ignore = "true"
 	@priority = 4
 	test CanCreateObjectEntryByScopeKey {
 		property portal.acceptance = "true";
@@ -103,8 +101,6 @@ definition {
 		}
 	}
 
-	@description = "Ignore tests since Oauth scopes problems in LPS-169916"
-	@ignore = "true"
 	@priority = 4
 	test CanCreateObjectEntryInVirtualInstance {
 		property portal.acceptance = "true";
@@ -136,8 +132,6 @@ definition {
 		}
 	}
 
-	@description = "Ignore tests since Oauth scopes problems in LPS-169916"
-	@ignore = "true"
 	@priority = 4
 	test CanIncludeObjectFieldInAPIExplorer {
 		property portal.acceptance = "true";
