@@ -120,7 +120,7 @@ definition {
 
 	@priority = 5
 	test CanLoadAPIExplorerFromCustomContext {
-		property portal.acceptance = "true";
+		property portal.acceptance = "aaa";
 		property portal.context = "world";
 		property skip.clean-app-server-deploy-dir = "true";
 		property test.name.skip.portal.instance = "HeadlessDiscovery#CanLoadAPIExplorerFromCustomContext";
@@ -142,7 +142,7 @@ definition {
 
 	@priority = 5
 	test CanLoadHeadlessAdminContentOpenAPI {
-		property portal.acceptance = "true";
+		property portal.acceptance = "aaa";
 
 		task ("Given navigate to headless admin content endpoint") {
 			var api = "headless-admin-content";
