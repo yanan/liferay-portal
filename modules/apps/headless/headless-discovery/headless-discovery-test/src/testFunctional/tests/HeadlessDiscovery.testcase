@@ -121,7 +121,7 @@ definition {
 	@priority = 5
 	test CanLoadAPIExplorerFromCustomContext {
 		property portal.acceptance = "aaa";
-		property portal.context = "world";
+		property portal.context = "liferay";
 		property skip.clean-app-server-deploy-dir = "true";
 		property test.name.skip.portal.instance = "HeadlessDiscovery#CanLoadAPIExplorerFromCustomContext";
 
