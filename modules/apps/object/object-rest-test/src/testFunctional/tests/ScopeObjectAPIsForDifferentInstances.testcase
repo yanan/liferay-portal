@@ -15,8 +15,7 @@ definition {
 			OAuth2ForObject.addOAuth2Application();
 
 			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
-				resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
-				resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
+				resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything");
 		}
 
 		task ("And Given a new virtual instances www.able.com is created") {
