@@ -7,8 +7,10 @@ definition {
 	property testray.main.component.name = "Headless";
 
 	setUp {
-		User.firstLoginUI();
+		TestCase.setUpPortalInstance();
 
+		User.firstLoginUI();
+		
 		task ("Given an OAuth application with headless scopes is created on default instance") {
 			OAuth2ForObject.addOAuth2Application();
 
@@ -75,7 +77,7 @@ definition {
 	@priority = 4
 	test CanCreateObjectEntryByScopeKey {
 		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When I use postScopeScopeKey and scopeKey to create an object entry in default instance") {
 			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
@@ -105,7 +107,7 @@ definition {
 	@priority = 4
 	test CanCreateObjectEntryInVirtualInstance {
 		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When I use postTest to create an object entry in www.able.com instance") {
 			var virtualInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
@@ -137,7 +139,7 @@ definition {
 	@priority = 4
 	test CanIncludeObjectFieldInAPIExplorer {
 		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("Given navigate to www.able.com:8080/o/c/tests") {
 			APIExplorer.navigateToOpenAPI(
