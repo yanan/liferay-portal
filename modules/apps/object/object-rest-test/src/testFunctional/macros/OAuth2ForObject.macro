@@ -2,7 +2,11 @@ definition {
 
 	macro addOAuth2Application {
 		if (isSet(baseURL)) {
-			SignIn.signInSpecificURL(url = ${baseURL});
+			//SignIn.signInSpecificURL(url = ${baseURL});
+			User.firstLoginUI(
+				password = "test",
+				specificURL = ${baseURL},
+				userEmailAddress = "test@liferay.com");
 		}
 		else {
 			var baseURL = PropsUtil.get("portal.url");
