@@ -56,19 +56,18 @@ definition {
 	}
 
 	tearDown {
-		PortalInstances.tearDownCP();
-
-		//var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
-		//	resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
-		//	resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
-		//ObjectAdmin.deleteObjectViaAPI(
-		//	objectName = "Test",
-		//	token = ${defaultInstanceToken});
-		//OAuth2.deleteApplication(applicationName = "OAuth Application");
-		//var testPortalInstance = PropsUtil.get("test.portal.instance");
-		//if (${testPortalInstance} == "true") {
-		//	PortalInstances.tearDownCP();
-		//}
+		var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
+			resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
+			resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
+		ObjectAdmin.deleteObjectViaAPI(
+			objectName = "Test",
+			token = ${defaultInstanceToken});
+		OAuth2.deleteApplication(applicationName = "OAuth Application");
+		HeadlessPortalInstanceAPI.cleanAllPortalInstances(token=${defaultInstanceToken});
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
 
 	}
 

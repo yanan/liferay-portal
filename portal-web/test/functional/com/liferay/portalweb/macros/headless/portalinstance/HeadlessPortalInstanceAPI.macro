@@ -107,7 +107,7 @@ definition {
 
 	@summary = "Clean up all Portal Instances that are not the default using Headless"
 	macro cleanAllPortalInstances {
-		var portalInstanceJson = HeadlessPortalInstanceAPI._getPortalInstances(authenticationMethod = ${authenticationMethod});
+		var portalInstanceJson = HeadlessPortalInstanceAPI._getPortalInstances(authenticationMethod = ${authenticationMethod},token=${token});
 
 		var portalInstanceIds = JSONUtil.getWithJSONPath(${portalInstanceJson}, "$.items..portalInstanceId");
 
