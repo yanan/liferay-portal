@@ -12,6 +12,11 @@ definition {
 		User.firstLoginUI();
 
 		task ("Given an OAuth application with headless scopes is created on default instance") {
+			//OAuth2ForObject.openOAuth2Admin();
+			//var baseURL = PropsUtil.get("portal.url");
+			var baseURL = PropsUtil.get("portal.url");
+
+			OAuth2.openOAuth2Admin();
 			OAuth2ForObject.addOAuth2Application();
 
 			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything");
@@ -26,7 +31,14 @@ definition {
 		}
 
 		task ("And Given an OAuth application with headless scopes is created on www.able.com") {
-			OAuth2ForObject.addOAuth2Application(baseURL = "http://www.able.com:8080");
+			//OAuth2ForObject.openOAuth2Admin(baseURL = "http://www.able.com:8080");
+			User.firstLoginUI(
+				password = "test",
+				specificURL = "http://www.able.com:8080",
+				userEmailAddress = "test@liferay.com");
+			OAuth2.openOAuth2Admin(baseURL = "http://www.able.com:8080");
+
+			OAuth2ForObject.addOAuth2Application();
 
 			var virtualInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
 				baseURL = "http://www.able.com:8080",
@@ -56,14 +68,33 @@ definition {
 	}
 
 	tearDown {
+		echo("111111");
+		//var baseURL = PropsUtil.get("portal.url");
+		//OAuth2ForObject.openOAuth2Admin(baseURL = ${baseURL});
+		OAuth2.openOAuth2Admin();
+		echo("000000");
 		var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
-			resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
-			resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
+			resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything");
 		ObjectAdmin.deleteObjectViaAPI(
 			objectName = "Test",
 			token = ${defaultInstanceToken});
 		OAuth2.deleteApplication(applicationName = "OAuth Application");
-		HeadlessPortalInstanceAPI.cleanAllPortalInstances(token=${defaultInstanceToken});
+		echo("2222");
+		//OAuth2ForObject.openOAuth2Admin(baseURL = "http://www.able.com:8080");
+		OAuth2.openOAuth2Admin(baseURL = "http://www.able.com:8080");
+		var virtualInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(
+				baseURL = "http://www.able.com:8080",
+				resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",
+				resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
+
+		ObjectAdmin.deleteObjectViaAPI(
+			objectName = "Test",
+			virtualHost = "www.able.com",
+			token = ${virtualInstanceToken});
+		OAuth2.deleteApplication(applicationName = "OAuth Application");
+		//HeadlessPortalInstanceAPI.cleanAllPortalInstances(token=${defaultInstanceToken});
+//		var instanceId = JSONCompany.getCompanyIdNoSelenium(portalInstanceName = "http://www.able.com:8080");
+		HeadlessPortalInstanceAPI.deletePortalInstance(portalInstanceId="www.able.com",token=${defaultInstanceToken});
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
