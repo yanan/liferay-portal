@@ -1,7 +1,7 @@
 @component-name = "portal-headless"
 definition {
 
-	property custom.properties = "include-and-override=portal-liferay-online.properties${line.separator}virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
+	property custom.properties = "include-and-override=portal-liferay-online.properties";
 	property portal.release = "true";
 	property portal.upstream = "true";
 	property testray.main.component.name = "Headless";
@@ -104,7 +104,6 @@ definition {
 
 	@priority = 4
 	test CanCreateObjectEntryByScopeKey {
-		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
 		property portal.acceptance = "ashley";
 
 		task ("When I use postScopeScopeKey and scopeKey to create an object entry in default instance") {
@@ -132,7 +131,6 @@ definition {
 
 	@priority = 4
 	test CanCreateObjectEntryInVirtualInstance {
-		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
 		property portal.acceptance = "ashley";
 
 		task ("When I use postTest to create an object entry in www.able.com instance") {
@@ -165,7 +163,6 @@ definition {
 
 	@priority = 4
 	test CanIncludeObjectFieldInAPIExplorer {
-		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com";
 		property portal.acceptance = "ashley";
 
 		task ("Given navigate to www.able.com:8080/o/c/tests") {
