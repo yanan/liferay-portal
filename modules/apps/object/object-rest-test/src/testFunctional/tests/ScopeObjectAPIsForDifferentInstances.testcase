@@ -16,7 +16,7 @@ definition {
 
 			OAuth2ForObject.addOAuth2Application();
 
-			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything");
+			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
 		}
 
 		task ("And Given a new virtual instances www.able.com is created") {
@@ -67,7 +67,7 @@ definition {
 	tearDown {
 		OAuth2.openOAuth2Admin();
 
-		var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything");
+		var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "Liferay.Headless.Portal.Instances.everything,Liferay.Object.Admin.REST.everything",resourcePanels = "Liferay.Headless.Portal.Instances,Liferay.Object.Admin.REST");
 
 		ObjectAdmin.deleteObjectViaAPI(
 			objectName = "Test",
@@ -102,7 +102,7 @@ definition {
 		property test.name.skip.portal.instance = "ScopeObjectAPIsForDifferentInstances#CanCreateObjectEntryByScopeKey";
 
 		task ("When I use postScopeScopeKey and scopeKey to create an object entry in default instance") {
-			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "C_Test.everything");
+			var defaultInstanceToken = OAuth2ForObject.createTokenWithOAuth2Scopes(resourceCheckList = "C_Test.everything",resourcePanels = "C_Test");
 
 			ObjectDefinitionAPI.createObjectEntryWithName(
 				en_US_plural_label = "tests",
