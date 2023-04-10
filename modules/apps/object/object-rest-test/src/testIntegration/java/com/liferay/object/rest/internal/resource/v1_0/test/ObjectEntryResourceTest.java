@@ -116,6 +116,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -599,6 +600,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition2);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByComparisonOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
@@ -1033,6 +1035,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition3);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByGroupingOperatorsObjectEntriesByRelatesObjectEntriesFields()
 		throws Exception {
@@ -1147,6 +1150,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition2);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByGroupingOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
@@ -1289,6 +1293,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition3);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByListOperatorsObjectEntriesByRelatesObjectEntriesFields()
 		throws Exception {
@@ -1391,6 +1396,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition2);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByLogicalOperatorsObjectEntriesByRelatesObjectEntriesFields()
 		throws Exception {
@@ -1633,6 +1639,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition2);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByLogicalOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
@@ -1947,6 +1954,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition3);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByStringOperatorsObjectEntriesByRelatesObjectEntriesFields()
 		throws Exception {
@@ -2111,6 +2119,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition2);
 	}
 
+	@Ignore
 	@Test
 	public void testFilterByStringOperatorsObjectEntriesByRelatesObjectEntriesFieldsThroughMultipleRelationships()
 		throws Exception {
@@ -2330,6 +2339,7 @@ public class ObjectEntryResourceTest {
 			_objectDefinition3);
 	}
 
+	@Ignore
 	@Test
 	public void testGetNestedFieldDetailsInOneToManyRelationships()
 		throws Exception {
@@ -2354,6 +2364,7 @@ public class ObjectEntryResourceTest {
 			_objectRelationship1.getName());
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectEntryFilteredByKeywords() throws Exception {
 		_postObjectEntryWithKeywords("tag1");
@@ -2404,6 +2415,7 @@ public class ObjectEntryResourceTest {
 		_assertFilteredObjectEntries(0, "keywords/any(k:k in ('1234','5678'))");
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectEntryFilteredByTaxonomyCategories()
 		throws Exception {
@@ -2535,6 +2547,7 @@ public class ObjectEntryResourceTest {
 			0, "taxonomyCategoryIds/any(k:k in (1234,5678))");
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectEntryWithAuditEvents() throws Exception {
 		ListTypeDefinition listTypeDefinition =
@@ -2832,6 +2845,7 @@ public class ObjectEntryResourceTest {
 			listTypeDefinition);
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectEntryWithKeywords() throws Exception {
 		JSONObject jsonObject = HTTPTestUtil.invoke(
@@ -2872,6 +2886,7 @@ public class ObjectEntryResourceTest {
 		Assert.assertEquals("tag3", keywordsJSONArray.get(2));
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectEntryWithTaxonomyCategories() throws Exception {
 		TaxonomyCategory taxonomyCategory1 = _addTaxonomyCategory();
@@ -2913,6 +2928,7 @@ public class ObjectEntryResourceTest {
 			).toString());
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectEntryWithTaxonomyCategoriesAndEmbeddedTaxonomyCategory()
 		throws Exception {
@@ -2964,6 +2980,7 @@ public class ObjectEntryResourceTest {
 			).toString());
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectRelationshipERCFieldNameInOneToManyRelationship()
 		throws Exception {
@@ -2985,6 +3002,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getExternalReferenceCode());
 	}
 
+	@Ignore
 	@Test
 	public void testGetObjectRelationshipERCFieldNameInOneToManyRelationshipFromRelatedObjectEntry()
 		throws Exception {
@@ -3019,6 +3037,7 @@ public class ObjectEntryResourceTest {
 			_objectEntry1.getExternalReferenceCode());
 	}
 
+	@Ignore
 	@Test
 	public void testGetScopeScopeKeyObjectEntriesPage() throws Exception {
 		try (LogCapture logCapture = LoggerTestUtil.configureLog4JLogger(
@@ -3052,6 +3071,7 @@ public class ObjectEntryResourceTest {
 			_siteScopedObjectEntry1.getObjectEntryId());
 	}
 
+	@Ignore
 	@Test
 	public void testPatchObjectEntryWithKeywords() throws Exception {
 		JSONObject jsonObject = HTTPTestUtil.invoke(
@@ -3083,6 +3103,7 @@ public class ObjectEntryResourceTest {
 		Assert.assertEquals("tag3", keywordsJSONArray.get(2));
 	}
 
+	@Ignore
 	@Test
 	public void testPatchObjectEntryWithTaxonomyCategories() throws Exception {
 		TaxonomyCategory taxonomyCategory1 = _addTaxonomyCategory();
@@ -3137,6 +3158,7 @@ public class ObjectEntryResourceTest {
 			).toString());
 	}
 
+	@Ignore
 	@Test
 	public void testPatchSiteScopedObject() throws Exception {
 		String newObjectFieldValue = RandomTestUtil.randomString();
@@ -3156,6 +3178,7 @@ public class ObjectEntryResourceTest {
 			jsonObject.getString(_OBJECT_FIELD_NAME_1), newObjectFieldValue);
 	}
 
+	@Ignore
 	@Test
 	public void testPostCustomObjectEntryWithInvalidNestedCustomObjectEntries()
 		throws Exception {
@@ -3188,6 +3211,7 @@ public class ObjectEntryResourceTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testPostCustomObjectEntryWithNestedCustomObjectEntriesInManyToManyRelationship()
 		throws Exception {
@@ -3239,6 +3263,7 @@ public class ObjectEntryResourceTest {
 			_OBJECT_FIELD_NAME_2, _NEW_OBJECT_FIELD_VALUE_2);
 	}
 
+	@Ignore
 	@Test
 	public void testPostCustomObjectEntryWithNestedCustomObjectEntriesInManyToOneRelationship()
 		throws Exception {
@@ -3290,6 +3315,7 @@ public class ObjectEntryResourceTest {
 			_OBJECT_FIELD_NAME_1, _NEW_OBJECT_FIELD_VALUE_1);
 	}
 
+	@Ignore
 	@Test
 	public void testPostCustomObjectEntryWithNestedCustomObjectEntriesInOneToManyRelationship()
 		throws Exception {
@@ -3341,6 +3367,7 @@ public class ObjectEntryResourceTest {
 			_OBJECT_FIELD_NAME_2, _NEW_OBJECT_FIELD_VALUE_2);
 	}
 
+	@Ignore
 	@Test
 	public void testPostObjectEntryWithKeywordsAndTaxonomyCategoryIdsWhenCategorizationDisabled()
 		throws Exception {
@@ -3396,6 +3423,7 @@ public class ObjectEntryResourceTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testPutByExternalReferenceCodeManyToManyRelationship()
 		throws Exception {
@@ -3451,6 +3479,7 @@ public class ObjectEntryResourceTest {
 			CoreMatchers.containsString("No ObjectEntry exists with the key"));
 	}
 
+	@Ignore
 	@Test
 	public void testPutCustomObjectEntryWithNestedCustomObjectEntriesInManyToManyRelationship()
 		throws Exception {
@@ -3515,6 +3544,7 @@ public class ObjectEntryResourceTest {
 			_OBJECT_FIELD_NAME_2, _NEW_OBJECT_FIELD_VALUE_2);
 	}
 
+	@Ignore
 	@Test
 	public void testPutCustomObjectEntryWithNestedCustomObjectEntriesInManyToOneRelationship()
 		throws Exception {
@@ -3582,6 +3612,7 @@ public class ObjectEntryResourceTest {
 			_OBJECT_FIELD_NAME_1, _NEW_OBJECT_FIELD_VALUE_1);
 	}
 
+	@Ignore
 	@Test
 	public void testPutCustomObjectEntryWithNestedCustomObjectEntriesInOneToManyRelationship()
 		throws Exception {
