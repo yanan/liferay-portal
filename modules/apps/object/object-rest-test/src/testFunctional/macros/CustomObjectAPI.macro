@@ -75,6 +75,112 @@ definition {
 		return ${curl};
 	}
 
+	macro _setBodyOfCreateCustomObjectAndNRelatedUsers {
+		Variables.assertDefined(parameterList = "${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName}");
+
+		var body = '''"${fieldName}": "${fieldValue}"''';
+		var size = ${numberOfRelatedUsers};
+		var entryBody = '''"${nestedField}": [''';
+		var i = 0;
+
+		while ((${i} != ${size}) && (maxIterations = "10")) {
+			var relatedUser = '''
+					"alternateName": "${alternateName}${i}",
+					"emailAddress": "${alternateName}${i}@${emailDomain}",
+					"familyName": "${familyName}${i}",
+					"givenName": "${givenName}${i}"
+				''';
+			var j = ${i} + 1;
+
+			if (${j} == ${size}) {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}}]", "");
+			}
+			else {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}},", "");
+			}
+
+			var i = ${i} + 1;
+		}
+
+		var body = StringUtil.add("${body},", ${entryBody}, "");
+
+		return ${body};
+	}
+
+	macro _setBodyOfUpdateCustomObjectAndNRelatedUsers {
+		Variables.assertDefined(parameterList = "${fieldName},${fieldValue},${nestedField},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+
+		var body = '''"${fieldName}": "${fieldValue}"''';
+		var entryBody = '''"${nestedField}": [''';
+		var i = 0;
+		var userExternalReferenceCodes = ListUtil.newListFromString(${userExternalReferenceCodes});
+
+		var size = ListUtil.size(${userExternalReferenceCodes});
+
+		for (var externalReferenceCode : list ${userExternalReferenceCodes}) {
+			var relatedUser = '''
+				"alternateName": "${alternateName}${i}-update",
+				"emailAddress": "${alternateName}${i}-update@${emailDomain}",
+				"familyName": "${familyName}${i}-update",
+				"givenName": "${givenName}${i}-update",
+				"externalReferenceCode": "${externalReferenceCode}"
+			''';
+			var j = ${i} + 1;
+
+			if (${j} == ${size}) {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}}]", "");
+			}
+			else {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}},", "");
+			}
+
+			var i = ${i} + 1;
+		}
+
+		var body = StringUtil.add("${body},", ${entryBody}, "");
+
+		return ${body};
+	}
+
+	macro _setCurlApiOfObjectEntries {
+		Variables.assertDefined(parameterList = ${en_US_plural_label});
+
+		var en_US_plural_label_lowercase = StringUtil.lowerCase(${en_US_plural_label});
+
+		if (isSet(virtualHost)) {
+			if (!(isSet(port))) {
+				var port = 8080;
+			}
+
+			var portalURL = "http://${virtualHost}:${port}";
+		}
+		else {
+			var portalURL = JSONCompany.getPortalURL();
+		}
+
+		var api = "${portalURL}/o/c/${en_US_plural_label_lowercase}";
+
+		if (isSet(objectEntryId)) {
+			var api = "${api}/${objectEntryId}";
+		}
+
+		if (isSet(scopeKey)) {
+			var scopeKey = JSONGroupAPI._getGroupIdByNameNoSelenium(
+				groupName = "Guest",
+				site = "true");
+
+			var api = StringUtil.add(${api}, "/scopes/${scopeKey}", "");
+		}
+
+		var curlApi = StringUtil.add(${api}, " \ ${headers}", "");
+
+		if (isSet(token)) {
+			var curlApi = StringUtil.add(${curlApi}, " -H 'Authorization: Bearer ${token}'", "");
+		}
+
+		return ${curlApi};
+	}
+
 	macro _setNObjectEntriesBody {
 		Variables.assertDefined(parameterList = "${fieldName},${fieldValue}");
 
@@ -131,6 +237,29 @@ definition {
 			numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
 			relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
 			relatedEntryFieldName = ${relatedEntryFieldName});
+
+		var response = JSONCurlUtil.post(${curl});
+
+		return ${response};
+	}
+
+	macro createObjectEntryAndRelatedSystemUsers {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName}");
+
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
+			en_US_plural_label = ${en_US_plural_label},
+			objectEntryId = ${objectEntryId});
+		var body = CustomObjectAPI._setBodyOfCreateCustomObjectAndNRelatedUsers(
+			alternateName = ${alternateName},
+			emailDomain = ${emailDomain},
+			familyName = ${familyName},
+			fieldName = ${fieldName},
+			fieldValue = ${fieldValue},
+			givenName = ${givenName},
+			nestedField = ${nestedField},
+			numberOfRelatedUsers = ${numberOfRelatedUsers});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
 
 		var response = JSONCurlUtil.post(${curl});
 
@@ -277,6 +406,30 @@ definition {
 			relatedEntryFieldName = ${relatedEntryFieldName});
 
 		var response = JSONCurlUtil.put(${curl});
+
+		return ${response};
+	}
+
+	macro updateObjectEntryAndRelatedSystemUsersByPatch {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
+			en_US_plural_label = ${en_US_plural_label},
+			objectEntryId = ${objectEntryId});
+		var body = CustomObjectAPI._setBodyOfUpdateCustomObjectAndNRelatedUsers(
+			alternateName = ${alternateName},
+			emailDomain = ${emailDomain},
+			familyName = ${familyName},
+			fieldName = ${fieldName},
+			fieldValue = ${fieldValue},
+			givenName = ${givenName},
+			nestedField = ${nestedField},
+			objectEntryId = ${objectEntryId},
+			userExternalReferenceCodes = ${userExternalReferenceCodes});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
+
+		var response = JSONCurlUtil.patch(${curl});
 
 		return ${response};
 	}
