@@ -5,8 +5,92 @@ definition {
 			-H Content-Type: application/json \
 		''';
 
-	macro _curlObjectEntries {
-		Variables.assertDefined(parameterList = "${en_US_plural_label},${fieldName},${fieldValue}");
+	macro _curlObjectPermissions {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId}");
+
+		var en_US_plural_label_lowercase = StringUtil.lowerCase(${en_US_plural_label});
+		var portalURL = JSONCompany.getPortalURL();
+
+		var api = "${portalURL}/o/c/${en_US_plural_label_lowercase}/${objectEntryId}/permissions";
+
+		if (isSet(roleNames)) {
+			var api = StringUtil.add(${curl}, "?roleNames=${roleNames}", "");
+		}
+
+		var curl = StringUtil.add(${api}, " \ ${headers}", "");
+
+		return ${curl};
+	}
+
+	macro _setBodyOfCreateCustomObjectAndNRelatedUsers {
+		Variables.assertDefined(parameterList = "${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName}");
+
+		var body = '''"${fieldName}": "${fieldValue}"''';
+		var size = ${numberOfRelatedUsers};
+		var entryBody = '''"${nestedField}": [''';
+		var i = 0;
+
+		while ((${i} != ${size}) && (maxIterations = "10")) {
+			var relatedUser = '''
+					"alternateName": "${alternateName}${i}",
+					"emailAddress": "${alternateName}${i}@${emailDomain}",
+					"familyName": "${familyName}${i}",
+					"givenName": "${givenName}${i}"
+				''';
+			var j = ${i} + 1;
+
+			if (${j} == ${size}) {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}}]", "");
+			}
+			else {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}},", "");
+			}
+
+			var i = ${i} + 1;
+		}
+
+		var body = StringUtil.add("${body},", ${entryBody}, "");
+
+		return ${body};
+	}
+
+	macro _setBodyOfUpdateCustomObjectAndNRelatedUsers {
+		Variables.assertDefined(parameterList = "${fieldName},${fieldValue},${nestedField},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+
+		var body = '''"${fieldName}": "${fieldValue}"''';
+		var entryBody = '''"${nestedField}": [''';
+		var i = 0;
+		var userExternalReferenceCodes = ListUtil.newListFromString(${userExternalReferenceCodes});
+
+		var size = ListUtil.size(${userExternalReferenceCodes});
+
+		for (var externalReferenceCode : list ${userExternalReferenceCodes}) {
+			var relatedUser = '''
+				"alternateName": "${alternateName}${i}-update",
+				"emailAddress": "${alternateName}${i}-update@${emailDomain}",
+				"familyName": "${familyName}${i}-update",
+				"givenName": "${givenName}${i}-update",
+				"externalReferenceCode": "${externalReferenceCode}"
+			''';
+			var j = ${i} + 1;
+
+			if (${j} == ${size}) {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}}]", "");
+			}
+			else {
+				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}},", "");
+			}
+
+			var i = ${i} + 1;
+		}
+
+		var body = StringUtil.add("${body},", ${entryBody}, "");
+
+		return ${body};
+	}
+
+	macro _setCurlApiOfObjectEntries {
+		Variables.assertDefined(parameterList = ${en_US_plural_label});
 
 		var en_US_plural_label_lowercase = StringUtil.lowerCase(${en_US_plural_label});
 
@@ -35,44 +119,13 @@ definition {
 			var api = StringUtil.add(${api}, "/scopes/${scopeKey}", "");
 		}
 
-		var curlWithoutBody = StringUtil.add(${api}, " \ ${headers}", "");
-		var body = CustomObjectAPI._setNObjectEntriesBody(
-			externalReferenceCode = ${externalReferenceCode},
-			fieldName = ${fieldName},
-			fieldValue = ${fieldValue},
-			keywords = ${keywords},
-			nestedField = ${nestedField},
-			numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
-			objectEntryId = ${objectEntryId},
-			relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
-			relatedEntryFieldName = ${relatedEntryFieldName},
-			secondFieldValue = ${secondFieldValue},
-			taxonomyCategoryIds = ${taxonomyCategoryIds});
-
-		var curl = StringUtil.add(${curlWithoutBody}, "-d {${body}}", " ");
+		var curlApi = StringUtil.add(${api}, " \ ${headers}", "");
 
 		if (isSet(token)) {
-			var curl = StringUtil.add(${curl}, " -H 'Authorization: Bearer ${token}'", "");
+			var curlApi = StringUtil.add(${curlApi}, " -H 'Authorization: Bearer ${token}'", "");
 		}
 
-		return ${curl};
-	}
-
-	macro _curlObjectPermissions {
-		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId}");
-
-		var en_US_plural_label_lowercase = StringUtil.lowerCase(${en_US_plural_label});
-		var portalURL = JSONCompany.getPortalURL();
-
-		var api = "${portalURL}/o/c/${en_US_plural_label_lowercase}/${objectEntryId}/permissions";
-
-		if (isSet(roleNames)) {
-			var api = StringUtil.add(${curl}, "?roleNames=${roleNames}", "");
-		}
-
-		var curl = StringUtil.add(${api}, " \ ${headers}", "");
-
-		return ${curl};
+		return ${curlApi};
 	}
 
 	macro _setNObjectEntriesBody {
@@ -153,11 +206,11 @@ definition {
 			expected = ${expectedValues});
 	}
 
-	macro createObjectEntryAndRelatedObjects {
+	macro createObjectEntryAndRelatedCustomObjects {
 		Variables.assertDefined(parameterList = "${en_US_plural_label},${fieldName},${fieldValue},${nestedField},${numberOfRelatedObjectEntries},${relatedEntryFieldName}");
 
-		var curl = CustomObjectAPI._curlObjectEntries(
-			en_US_plural_label = ${en_US_plural_label},
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(en_US_plural_label = ${en_US_plural_label});
+		var body = CustomObjectAPI._setNObjectEntriesBody(
 			externalReferenceCode = ${externalReferenceCode},
 			fieldName = ${fieldName},
 			fieldValue = ${fieldValue},
@@ -165,6 +218,41 @@ definition {
 			numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
 			relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
 			relatedEntryFieldName = ${relatedEntryFieldName});
+
+		//var body = CustomObjectAPI._curlObjectEntries(
+		//	en_US_plural_label = ${en_US_plural_label},
+		//	externalReferenceCode = ${externalReferenceCode},
+		//	fieldName = ${fieldName},
+		//	fieldValue = ${fieldValue},
+		//	nestedField = ${nestedField},
+		//	numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
+		//	relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
+		//	relatedEntryFieldName = ${relatedEntryFieldName});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
+
+		var response = JSONCurlUtil.post(${curl});
+
+		return ${response};
+	}
+
+	macro createObjectEntryAndRelatedSystemUsers {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName}");
+
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
+			en_US_plural_label = ${en_US_plural_label},
+			objectEntryId = ${objectEntryId});
+		var body = CustomObjectAPI._setBodyOfCreateCustomObjectAndNRelatedUsers(
+			alternateName = ${alternateName},
+			emailDomain = ${emailDomain},
+			familyName = ${familyName},
+			fieldName = ${fieldName},
+			fieldValue = ${fieldValue},
+			givenName = ${givenName},
+			nestedField = ${nestedField},
+			numberOfRelatedUsers = ${numberOfRelatedUsers});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
 
 		var response = JSONCurlUtil.post(${curl});
 
@@ -174,17 +262,29 @@ definition {
 	macro createObjectEntryWithFields {
 		Variables.assertDefined(parameterList = "${en_US_plural_label},${fieldName},${fieldValue}");
 
-		var curl = CustomObjectAPI._curlObjectEntries(
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
+			en_US_plural_label = ${en_US_plural_label},
+			scopeKey = ${scopeKey},
+			token = ${token},
+			virtualHost = ${virtualHost});
+		var body = CustomObjectAPI._setNObjectEntriesBody(
 			en_US_plural_label = ${en_US_plural_label},
 			externalReferenceCode = ${externalReferenceCode},
 			fieldName = ${fieldName},
 			fieldValue = ${fieldValue},
-			keywords = ${keywords},
-			scopeKey = ${scopeKey},
-			secondFieldValue = ${secondFieldValue},
-			taxonomyCategoryIds = ${taxonomyCategoryIds},
-			token = ${token},
-			virtualHost = ${virtualHost});
+			secondFieldValue = ${secondFieldValue});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
+
+		//var curl = CustomObjectAPI._curlObjectEntries(
+		//	en_US_plural_label = ${en_US_plural_label},
+		//	externalReferenceCode = ${externalReferenceCode},
+		//	fieldName = ${fieldName},
+		//	fieldValue = ${fieldValue},
+		//	scopeKey = ${scopeKey},
+		//	secondFieldValue = ${secondFieldValue},
+		//	token = ${token},
+		//	virtualHost = ${virtualHost});
 
 		var response = JSONCurlUtil.post(${curl});
 
@@ -219,39 +319,90 @@ definition {
 		return ${staticObjectId};
 	}
 
-	macro updateObjectEntryAndRelatedObjectsByPatch {
+	macro updateObjectEntryAndRelatedCustomObjectsByPatch {
 		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${numberOfRelatedObjectEntries},${objectEntryId},${relatedEntryFieldName}");
 
-		var curl = CustomObjectAPI._curlObjectEntries(
+		//var curl = CustomObjectAPI._curlObjectEntries(
+		//	en_US_plural_label = ${en_US_plural_label},
+		//	fieldName = ${fieldName},
+		//	fieldValue = ${fieldValue},
+		//	nestedField = ${nestedField},
+		//	numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
+		//	objectEntryId = ${objectEntryId},
+		//	relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
+		//	relatedEntryFieldName = ${relatedEntryFieldName});
+
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
 			en_US_plural_label = ${en_US_plural_label},
+			objectEntryId = ${objectEntryId});
+		var body = CustomObjectAPI._setNObjectEntriesBody(
 			fieldName = ${fieldName},
 			fieldValue = ${fieldValue},
 			nestedField = ${nestedField},
 			numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
-			objectEntryId = ${objectEntryId},
 			relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
 			relatedEntryFieldName = ${relatedEntryFieldName});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
 
 		var response = JSONCurlUtil.patch(${curl});
 
 		return ${response};
 	}
 
-	macro updateObjectEntryAndRelatedObjectsByPut {
+	macro updateObjectEntryAndRelatedCustomObjectsByPut {
 		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${numberOfRelatedObjectEntries},${objectEntryId},${relatedEntryFieldName}");
 
-		var curl = CustomObjectAPI._curlObjectEntries(
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
 			en_US_plural_label = ${en_US_plural_label},
+			objectEntryId = ${objectEntryId});
+		var body = CustomObjectAPI._setNObjectEntriesBody(
 			externalReferenceCode = ${externalReferenceCode},
 			fieldName = ${fieldName},
 			fieldValue = ${fieldValue},
 			nestedField = ${nestedField},
 			numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
-			objectEntryId = ${objectEntryId},
 			relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
 			relatedEntryFieldName = ${relatedEntryFieldName});
 
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
+
+		//var curl = CustomObjectAPI._curlObjectEntries(
+		//	en_US_plural_label = ${en_US_plural_label},
+		//	externalReferenceCode = ${externalReferenceCode},
+		//	fieldName = ${fieldName},
+		//	fieldValue = ${fieldValue},
+		//	nestedField = ${nestedField},
+		//	numberOfRelatedObjectEntries = ${numberOfRelatedObjectEntries},
+		//	objectEntryId = ${objectEntryId},
+		//	relatedEntryExternalReferenceCode = ${relatedEntryExternalReferenceCode},
+		//	relatedEntryFieldName = ${relatedEntryFieldName});
+
 		var response = JSONCurlUtil.put(${curl});
+
+		return ${response};
+	}
+
+	macro updateObjectEntryAndRelatedSystemUsersByPatch {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+
+		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
+			en_US_plural_label = ${en_US_plural_label},
+			objectEntryId = ${objectEntryId});
+		var body = CustomObjectAPI._setBodyOfUpdateCustomObjectAndNRelatedUsers(
+			alternateName = ${alternateName},
+			emailDomain = ${emailDomain},
+			familyName = ${familyName},
+			fieldName = ${fieldName},
+			fieldValue = ${fieldValue},
+			givenName = ${givenName},
+			nestedField = ${nestedField},
+			objectEntryId = ${objectEntryId},
+			userExternalReferenceCodes = ${userExternalReferenceCodes});
+
+		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
+
+		var response = JSONCurlUtil.patch(${curl});
 
 		return ${response};
 	}
