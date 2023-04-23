@@ -64,12 +64,40 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		JSONUser.tearDownNonAdminUsersNoSelenium();
+		// JSONUser.tearDownNonAdminUsersNoSelenium();
 
-		ObjectAdmin.deleteAllCustomObjectsViaAPI();
+		// ObjectAdmin.deleteAllCustomObjectsViaAPI();
 
 		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCPNoSelenium();
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test CanCreateCustomObjectAndRelatedSystemObjectsInManyToManyRelationshipChildSide {
+		property portal.acceptance = "true";
+
+		task ("When creating a Student with postStudent including usersStudents with two Users information") {
+			CustomObjectAPI.createObjectEntryAndRelatedSystemUsers(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob",
+				givenName = "usergn",
+				nestedField = "usersStudents",
+				numberOfRelatedUsers = 2);
+		}
+
+		task ("Then both Student and two Users are created") {
+			CustomObjectAPI.assertCorrectObjectEntryValuesInResponse(
+				en_US_plural_label = "students",
+				expectedValues = "Bob",
+				objectJsonPath = "$.items[*].name");
+
+			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user1,user2");
 		}
 	}
 
@@ -94,10 +122,10 @@ definition {
 		task ("When updating the existing Student with patchStudent and studentId including studentsUsers and updated Users information and externalReferenceCode") {
 			var studentId = JSONPathUtil.getIdValue(response = ${response});
 			var user1ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
-				filter = "alternateName%20eq%20%27user0%27",
+				filter = "alternateName%20eq%20%27user1%27",
 				jsonPath = "$..externalReferenceCode");
 			var user2ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
-				filter = "alternateName%20eq%20%27user1%27",
+				filter = "alternateName%20eq%20%27user2%27",
 				jsonPath = "$..externalReferenceCode");
 
 			CustomObjectAPI.updateObjectEntryAndRelatedSystemUsersByPatch(
@@ -109,7 +137,6 @@ definition {
 				fieldValue = "Bob-update",
 				givenName = "usergn",
 				nestedField = "studentsUsers",
-				numberOfRelatedUsers = 2,
 				objectEntryId = ${studentId},
 				userExternalReferenceCodes = "${user1ExternalReferenceCode},${user2ExternalReferenceCode}");
 		}
@@ -121,7 +148,209 @@ definition {
 			//	expectedValues = "Bob-update",
 			//	objectJsonPath = "$.items[*].name");
 
-			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user0-update,user1-update");
+			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user1-update,user2-update");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test CanUpdateCustomAndRelatedSystemObjectsInManyToManyRelationshipChildSideByPatch {
+		property portal.acceptance = "true";
+
+		task ("And Given creating a Student with postStudent including usersStudents with two Users information") {
+			var response = CustomObjectAPI.createObjectEntryAndRelatedSystemUsers(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob",
+				givenName = "usergn",
+				nestedField = "usersStudents",
+				numberOfRelatedUsers = 2);
+		}
+
+		task ("When updating the existing Student with patchStudent and studentId including usersStudents and updated Users information and externalReferenceCode") {
+			var studentId = JSONPathUtil.getIdValue(response = ${response});
+			var user1ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user1%27",
+				jsonPath = "$..externalReferenceCode");
+			var user2ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user2%27",
+				jsonPath = "$..externalReferenceCode");
+
+			CustomObjectAPI.updateObjectEntryAndRelatedSystemUsersByPatch(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob-update",
+				givenName = "usergn",
+				nestedField = "usersStudents",
+				objectEntryId = ${studentId},
+				userExternalReferenceCodes = "${user1ExternalReferenceCode},${user2ExternalReferenceCode}");
+		}
+
+		task ("Then both Student and Users are updated") {
+
+			//CustomObjectAPI.assertCorrectObjectEntryValuesInResponse(
+			//	en_US_plural_label = "students",
+			//	expectedValues = "Bob-update",
+			//	objectJsonPath = "$.items[*].name");
+
+			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user1-update,user2-update");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test CanUpdateCustomAndRelatedSystemObjectsInManyToManyRelationshipChildSideByPut {
+		property portal.acceptance = "true";
+
+		task ("And Given creating a Student with postStudent including usersStudents with two Users information") {
+			var response = CustomObjectAPI.createObjectEntryAndRelatedSystemUsers(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob",
+				givenName = "usergn",
+				nestedField = "usersStudents",
+				numberOfRelatedUsers = 2);
+		}
+
+		task ("When updating the existing Student with putStudent and studentId including usersStudents and updated Users information and externalReferenceCode") {
+			var studentId = JSONPathUtil.getIdValue(response = ${response});
+			var user1ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user1%27",
+				jsonPath = "$..externalReferenceCode");
+			var user2ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user2%27",
+				jsonPath = "$..externalReferenceCode");
+
+			CustomObjectAPI.updateObjectEntryAndRelatedSystemUsersByPut(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob-update",
+				givenName = "usergn",
+				nestedField = "usersStudents",
+				objectEntryId = ${studentId},
+				userExternalReferenceCodes = "${user1ExternalReferenceCode},${user2ExternalReferenceCode}");
+		}
+
+		task ("Then both Student and Users are updated") {
+			CustomObjectAPI.assertCorrectObjectEntryValuesInResponse(
+				en_US_plural_label = "students",
+				expectedValues = "Bob-update",
+				objectJsonPath = "$.items[*].name");
+
+			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user1-update,user2-update");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test CanUpdateCustomAndRelatedSystemObjectsInOneToManyRelationshipByPatch {
+		property portal.acceptance = "true";
+
+		task ("And Given creating a Student with postStudent including studentUsers with two Users information") {
+			var response = CustomObjectAPI.createObjectEntryAndRelatedSystemUsers(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob",
+				givenName = "usergn",
+				nestedField = "studentUsers",
+				numberOfRelatedUsers = 2);
+		}
+
+		task ("When updating the existing Student with patchStudent and studentId including studentUsers and updated Users information and externalReferenceCode") {
+			var studentId = JSONPathUtil.getIdValue(response = ${response});
+			var user1ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user1%27",
+				jsonPath = "$..externalReferenceCode");
+			var user2ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user2%27",
+				jsonPath = "$..externalReferenceCode");
+
+			CustomObjectAPI.updateObjectEntryAndRelatedSystemUsersByPut(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob-update",
+				givenName = "usergn",
+				nestedField = "studentUsers",
+				objectEntryId = ${studentId},
+				userExternalReferenceCodes = "${user1ExternalReferenceCode},${user2ExternalReferenceCode}");
+		}
+
+		task ("Then both Student and Users are updated") {
+			CustomObjectAPI.assertCorrectObjectEntryValuesInResponse(
+				en_US_plural_label = "students",
+				expectedValues = "Bob-update",
+				objectJsonPath = "$.items[*].name");
+
+			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user1-update,user2-update");
+		}
+	}
+
+	
+	@disable-webdriver = "true"
+	@priority = 5
+	test CanUpdateCustomAndRelatedSystemObjectInManyToOneRelationshipByPatch {
+		property portal.acceptance = "true";
+
+		task ("And Given creating a Student with postStudent including userStudents with one User information") {
+			var response = CustomObjectAPI.createObjectEntryAndRelatedSystemUsers(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob",
+				givenName = "usergn",
+				nestedField = "userStudents",
+				numberOfRelatedUsers = 2);
+		}
+
+		task ("When updating the existing Student with patchStudent and studentId including userStudents and updated User information and externalReferenceCode") {
+			var studentId = JSONPathUtil.getIdValue(response = ${response});
+			var user1ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user1%27",
+				jsonPath = "$..externalReferenceCode");
+			var user2ExternalReferenceCode = UserAccountAPI.getUserFieldWithFilter(
+				filter = "alternateName%20eq%20%27user2%27",
+				jsonPath = "$..externalReferenceCode");
+
+			CustomObjectAPI.updateObjectEntryAndRelatedSystemUsersByPut(
+				alternateName = "user",
+				emailDomain = "liferay.com",
+				en_US_plural_label = "students",
+				familyName = "userfn",
+				fieldName = "name",
+				fieldValue = "Bob-update",
+				givenName = "usergn",
+				nestedField = "userStudents",
+				objectEntryId = ${studentId},
+				userExternalReferenceCodes = "${user1ExternalReferenceCode},${user2ExternalReferenceCode}");
+		}
+
+		task ("Then both Student and User are updated") {
+			CustomObjectAPI.assertCorrectObjectEntryValuesInResponse(
+				en_US_plural_label = "students",
+				expectedValues = "Bob-update",
+				objectJsonPath = "$.items[*].name");
+
+			UserAccountAPI.assertCorrectUserAlternateNameInResponse(expectedNames = "user1-update,user2-update");
 		}
 	}
 

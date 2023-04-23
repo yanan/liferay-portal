@@ -31,13 +31,15 @@ definition {
 		var i = 0;
 
 		while ((${i} != ${size}) && (maxIterations = "10")) {
-			var relatedUser = '''
-					"alternateName": "${alternateName}${i}",
-					"emailAddress": "${alternateName}${i}@${emailDomain}",
-					"familyName": "${familyName}${i}",
-					"givenName": "${givenName}${i}"
-				''';
+			
 			var j = ${i} + 1;
+
+			var relatedUser = '''
+					"alternateName": "${alternateName}${j}",
+					"emailAddress": "${alternateName}${j}@${emailDomain}",
+					"familyName": "${familyName}${j}",
+					"givenName": "${givenName}${j}"
+				''';
 
 			if (${j} == ${size}) {
 				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}}]", "");
@@ -65,14 +67,15 @@ definition {
 		var size = ListUtil.size(${userExternalReferenceCodes});
 
 		for (var externalReferenceCode : list ${userExternalReferenceCodes}) {
+			var j = ${i} + 1;
+
 			var relatedUser = '''
-				"alternateName": "${alternateName}${i}-update",
-				"emailAddress": "${alternateName}${i}-update@${emailDomain}",
-				"familyName": "${familyName}${i}-update",
-				"givenName": "${givenName}${i}-update",
+				"alternateName": "${alternateName}${j}-update",
+				"emailAddress": "${alternateName}${j}-update@${emailDomain}",
+				"familyName": "${familyName}${j}-update",
+				"givenName": "${givenName}${j}-update",
 				"externalReferenceCode": "${externalReferenceCode}"
 			''';
-			var j = ${i} + 1;
 
 			if (${j} == ${size}) {
 				var entryBody = StringUtil.add(${entryBody}, "{${relatedUser}}]", "");
@@ -408,8 +411,8 @@ definition {
 		return ${response};
 	}
 
-	macro updateObjectEntryAndRelatedSystemUsersByPatch {
-		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${numberOfRelatedUsers},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+	macro _objectEntryAndRelatedSystemUsersToUpdate {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
 
 		var api = CustomObjectAPI._setCurlApiOfObjectEntries(
 			en_US_plural_label = ${en_US_plural_label},
@@ -427,7 +430,48 @@ definition {
 
 		var curl = StringUtil.add(${api}, "-d {${body}}", " ");
 
+		return ${curl};
+		// var response = JSONCurlUtil.patch(${curl});
+
+		// return ${response};
+	}
+
+	macro updateObjectEntryAndRelatedSystemUsersByPatch {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+
+		var curl = CustomObjectAPI._objectEntryAndRelatedSystemUsersToUpdate(
+			en_US_plural_label = ${en_US_plural_label},
+			alternateName = ${alternateName},
+			emailDomain = ${emailDomain},
+			familyName = ${familyName},
+			fieldName = ${fieldName},
+			fieldValue = ${fieldValue},
+			givenName = ${givenName},
+			nestedField = ${nestedField},
+			objectEntryId = ${objectEntryId},
+			userExternalReferenceCodes = ${userExternalReferenceCodes});
+
 		var response = JSONCurlUtil.patch(${curl});
+
+		return ${response};
+	}
+
+	macro updateObjectEntryAndRelatedSystemUsersByPut {
+		Variables.assertDefined(parameterList = "${en_US_plural_label},${objectEntryId},${fieldName},${fieldValue},${nestedField},${alternateName},${emailDomain},${familyName},${givenName},${userExternalReferenceCodes}");
+
+		var curl = CustomObjectAPI._objectEntryAndRelatedSystemUsersToUpdate(
+			en_US_plural_label = ${en_US_plural_label},
+			alternateName = ${alternateName},
+			emailDomain = ${emailDomain},
+			familyName = ${familyName},
+			fieldName = ${fieldName},
+			fieldValue = ${fieldValue},
+			givenName = ${givenName},
+			nestedField = ${nestedField},
+			objectEntryId = ${objectEntryId},
+			userExternalReferenceCodes = ${userExternalReferenceCodes});
+
+		var response = JSONCurlUtil.put(${curl});
 
 		return ${response};
 	}
