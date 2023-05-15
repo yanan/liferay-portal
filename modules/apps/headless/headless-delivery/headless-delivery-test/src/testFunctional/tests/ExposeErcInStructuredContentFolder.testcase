@@ -142,7 +142,7 @@ definition {
 				groupName = "Site Name");
 		}
 
-		task ("Then I can retrieve the correct information from the response") {
+		task ("Then I can retrieve the correct information from the response test") {
 			HeadlessWebcontentFolderAPI.assertResponseHasCorrectDetails(
 				expectedExternalReferenceCodeValue = "CustomeCode",
 				responseFromCreate = ${responseFromCreate},
