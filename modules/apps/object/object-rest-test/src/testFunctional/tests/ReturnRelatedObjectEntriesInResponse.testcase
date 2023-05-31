@@ -28,7 +28,7 @@ definition {
 				deletionType = "cascade",
 				en_US_label = "studentsSubjects",
 				name = "studentsSubjects",
-				objectDefinitionId1 = ${studentObjectDefinitionId},property portal.acceptance = "ashley";
+				objectDefinitionId1 = ${studentObjectDefinitionId},
 				objectDefinitionId2 = ${subjectObjectDefinitionId},
 				type = "manyToMany");
 		}
