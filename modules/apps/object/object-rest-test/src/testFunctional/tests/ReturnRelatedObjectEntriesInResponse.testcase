@@ -1,7 +1,7 @@
 @component-name = "portal-headless"
 definition {
 
-	property custom.properties = "feature.flag.LPS-153117=true";
+	property custom.properties = "feature.flag.LPS-153117=true${line.separator}feature.flag.LPS-165819=true";
 	property portal.release = "true";
 	property portal.upstream = "true";
 	property testray.component.names = "Object";
@@ -111,7 +111,7 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnChildAndParentsWithPostChildStudentInManyToManyRelationship {
-		property custom.properties = "feature.flag.LPS-165819=true";
+		//property custom.properties = "feature.flag.LPS-165819=true";
 		//property portal.acceptance = "true";
 		property portal.acceptance = "ashley";
 
@@ -174,7 +174,7 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnChildAndParentWithPostChildUserInManyToManyRelationship {
-		property custom.properties = "feature.flag.LPS-165819=true";
+		//property custom.properties = "feature.flag.LPS-165819=true";
 		//property portal.acceptance = "true";
 		property portal.acceptance = "ashley";
 
@@ -207,7 +207,7 @@ definition {
 	@ignore = "true"
 	@priority = 4
 	test CanReturnChildAndParentWithPostChildUserInOneToManyRelationship {
-		property custom.properties = "feature.flag.LPS-165819=true";
+		//property custom.properties = "feature.flag.LPS-165819=true";
 		//property portal.acceptance = "true";
 		property portal.acceptance = "ashley";
 
@@ -303,7 +303,7 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedChildAndParentsWithPatchChildStudentInManyToManyRelationship {
-		property custom.properties = "feature.flag.LPS-165819=true";
+		//property custom.properties = "feature.flag.LPS-165819=true";
 		//property portal.acceptance = "true";
 		property portal.acceptance = "ashley";
 
@@ -355,7 +355,7 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedChildAndParentsWithPatchChildUserInManyToManyRelationship {
-		property custom.properties = "feature.flag.LPS-165819=true";
+		//property custom.properties = "feature.flag.LPS-165819=true";
 		//property portal.acceptance = "true";
 		property portal.acceptance = "ashley";
 
@@ -592,7 +592,7 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedParentAndChildrenWithPutParentStudentInOneToManyRelationship {
-		property custom.properties = "feature.flag.LPS-165819=true";
+		//property custom.properties = "feature.flag.LPS-165819=true";
 		//property portal.acceptance = "true";
 		property portal.acceptance = "ashley";
 
