@@ -28,7 +28,7 @@ definition {
 				deletionType = "cascade",
 				en_US_label = "studentsSubjects",
 				name = "studentsSubjects",
-				objectDefinitionId1 = ${studentObjectDefinitionId},
+				objectDefinitionId1 = ${studentObjectDefinitionId},property portal.acceptance = "ashley";
 				objectDefinitionId2 = ${subjectObjectDefinitionId},
 				type = "manyToMany");
 		}
@@ -112,7 +112,8 @@ definition {
 	@priority = 4
 	test CanReturnChildAndParentsWithPostChildStudentInManyToManyRelationship {
 		property custom.properties = "feature.flag.LPS-165819=true";
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When with postStudent to create a student and two related users") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -144,7 +145,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnChildAndParentsWithPostChildSubjectInManyToManyRelationship {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When creating Subject with postSubject and two related Students in studentsSubjects") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -173,7 +175,8 @@ definition {
 	@priority = 4
 	test CanReturnChildAndParentWithPostChildUserInManyToManyRelationship {
 		property custom.properties = "feature.flag.LPS-165819=true";
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When with postUserAccount to create a userAccount and two related students") {
 			var response = UserAccountAPI.createUserAccountAndRelatedObjects(
@@ -205,7 +208,8 @@ definition {
 	@priority = 4
 	test CanReturnChildAndParentWithPostChildUserInOneToManyRelationship {
 		property custom.properties = "feature.flag.LPS-165819=true";
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When with postUserAccount to create a user and a related student") {
 			var response = UserAccountAPI.createUserAccountAndRelatedObjects(
@@ -235,7 +239,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnChildAndSystemParentWithPostChildStudentInOneToManyRelationship {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When with postStudent to create a student and one related user") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -268,7 +273,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnCustomObjectsWithPostSubjectInManyToOneRelationshipWithItself {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When with postSubject to create a subject including a related subject in mainSubjects{}") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -298,7 +304,8 @@ definition {
 	@priority = 4
 	test CanReturnUpdatedChildAndParentsWithPatchChildStudentInManyToManyRelationship {
 		property custom.properties = "feature.flag.LPS-165819=true";
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postStudent to create a student and two related users") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -349,7 +356,8 @@ definition {
 	@priority = 4
 	test CanReturnUpdatedChildAndParentsWithPatchChildUserInManyToManyRelationship {
 		property custom.properties = "feature.flag.LPS-165819=true";
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postUserAccount to create a userAccount and two related students") {
 			var response = UserAccountAPI.createUserAccountAndRelatedObjects(
@@ -391,7 +399,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedChildAndParentWithPatchChildStudentInOneToManyRelationship {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postSubject I create one subject and two related students in one request") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -440,7 +449,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedChildAndSystemParentWithPatchChildStudentInOneToManyRelationship {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postStudent to create a student and one related user") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -492,7 +502,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedCustomObjectsWithPatchSubjectInOneToManyRelationshipWithItself {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postSubject I create a subject and one related subject in one request") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -537,7 +548,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedParentAndChildrenWithPatchParentStudentInManyToManyRelationship {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postStudent I created a student and two related subjects in one request") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -581,7 +593,8 @@ definition {
 	@priority = 4
 	test CanReturnUpdatedParentAndChildrenWithPutParentStudentInOneToManyRelationship {
 		property custom.properties = "feature.flag.LPS-165819=true";
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postStudent to create a student and two related users") {
 			var response = CustomObjectAPI.createObjectEntryAndRelatedObjects(
@@ -631,7 +644,8 @@ definition {
 	@disable-webdriver = "true"
 	@priority = 4
 	test CanReturnUpdatedParentAndChildrenWithPutParentUserInOneToManyRelationship {
-		property portal.acceptance = "true";
+		//property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postUserAccount to create a user and two related students") {
 			var response = UserAccountAPI.createUserAccountAndRelatedObjects(
