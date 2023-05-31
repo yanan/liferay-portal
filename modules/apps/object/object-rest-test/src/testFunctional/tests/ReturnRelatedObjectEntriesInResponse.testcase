@@ -101,7 +101,7 @@ definition {
 
 		ObjectAdmin.deleteAllCustomObjectsViaAPI();
 
-		JSONUser.tearDownNonAdminUsers();
+		JSONUser.tearDownNonAdminUsersNoSelenium();
 
 		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
