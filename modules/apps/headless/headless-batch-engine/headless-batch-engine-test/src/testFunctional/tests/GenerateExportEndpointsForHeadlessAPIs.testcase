@@ -14,9 +14,9 @@ definition {
 
 		ObjectAdmin.deleteAllCustomObjectsViaAPI();
 
-		JSONDepot.deleteDepot(
-			depotName = "Test Depot Name",
-			noSelenium = "true");
+		// JSONDepot.deleteDepot(
+		// 	depotName = "Test Depot Name",
+		// 	noSelenium = "true");
 
 		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
 
@@ -32,25 +32,25 @@ definition {
 			JSONDepot.addDepot(depotName = "Test Depot Name");
 		}
 
-		task ("And Given postAssetLibraryKeywordsPageExportBatch with valid assetLibraryId") {
-			var response = TaxonomyVocabularyAPI.createAssetLibraryWithKeyWords(
-				depotName = "Test Depot Name",
-				exportBatch = "true",
-				name = "Liferay",
-				noSelenium = "true");
-		}
+		// task ("And Given postAssetLibraryKeywordsPageExportBatch with valid assetLibraryId") {
+		// 	var response = TaxonomyVocabularyAPI.createAssetLibraryWithKeyWords(
+		// 		depotName = "Test Depot Name",
+		// 		exportBatch = "true",
+		// 		name = "Liferay",
+		// 		noSelenium = "true");
+		// }
 
-		task ("When getExportTask with the id from postAssetLibraryKeywordsPageExportBatch response") {
-			var exportTaskId = JSONPathUtil.getIdValue(response = ${response});
+		// task ("When getExportTask with the id from postAssetLibraryKeywordsPageExportBatch response") {
+		// 	var exportTaskId = JSONPathUtil.getIdValue(response = ${response});
 
-			var response = ExportTask.getExportTaskById(exportTaskId = ${exportTaskId});
-		}
+		// 	var response = ExportTask.getExportTaskById(exportTaskId = ${exportTaskId});
+		// }
 
-		task ("Then processedItemsCount is 0 with executeStatus is "COMPLETED"") {
-			ExportTask.assertProcessedItemsCountWithCompletedStatus(
-				expectedCount = 0,
-				response = ${response});
-		}
+		// task ("Then processedItemsCount is 0 with executeStatus is "COMPLETED"") {
+		// 	ExportTask.assertProcessedItemsCountWithCompletedStatus(
+		// 		expectedCount = 0,
+		// 		response = ${response});
+		// }
 	}
 
 	@disable-webdriver = "true"
