@@ -79,6 +79,21 @@ definition {
 		Click(locator1 = "Raylife#BUTTON_PREVIOUS");
 	}
 
+	@priority = 3
+	test CanTenterQuote {
+		property test.liferay.virtual.instance = "false";
+
+		ApplicationsMenu.gotoSite(key_site = ${testSiteName});
+
+		Type(
+			locator1 = "//div[label[contains(.,'Zip')]]//input[@type='text']",
+			value1 = 12345);
+
+		Click(locator1 = "//*[contains(text(), 'GET A QUOTE')]");
+
+		WaitForElementPresent(locator1 = "//*[contains(text(),'Welcome! Select a product.')]");
+	}
+
 	@description = "LPS-143994 -  Verify if entering a valid email address, the Email Sent Fragment is shown"
 	@priority = 3
 	test CanViewEmailFragmentSent {
