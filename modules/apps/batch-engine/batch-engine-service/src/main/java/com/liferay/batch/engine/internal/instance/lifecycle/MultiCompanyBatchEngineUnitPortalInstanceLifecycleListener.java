@@ -24,7 +24,7 @@ public class MultiCompanyBatchEngineUnitPortalInstanceLifecycleListener
 	extends BasePortalInstanceLifecycleListener {
 
 	@Override
-	public void portalInstanceRegistered(Company company) {
+	public void portalInstanceRegistered(Company company) throws Exception {
 		_multiCompanyBatchEngineUnitProcessor.processBatchEngineUnits(company);
 	}
 

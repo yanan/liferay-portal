@@ -12,11 +12,13 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.annotations.Component;
@@ -29,10 +31,17 @@ import org.osgi.service.component.annotations.Reference;
 @Component(service = MultiCompanyBatchEngineUnitProcessor.class)
 public class MultiCompanyBatchEngineUnitProcessor {
 
-	public void processBatchEngineUnits(Company company) {
+	public void processBatchEngineUnits(Company company) throws Exception {
+		List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
+
 		for (Bundle bundle : _bundleBatchEngineUnits.keySet()) {
-			_processBatchEngineUnits(bundle, company);
+			completableFutures.add(_processBatchEngineUnits(bundle, company));
 		}
+
+		CompletableFuture<Void> completableFuture = CompletableFuture.allOf(
+			completableFutures.toArray(new CompletableFuture[0]));
+
+		completableFuture.get();
 	}
 
 	public void registerBatchEngineUnits(
@@ -64,17 +73,19 @@ public class MultiCompanyBatchEngineUnitProcessor {
 		_bundleProcessedCompanies.clear();
 	}
 
-	private void _processBatchEngineUnits(Bundle bundle, Company company) {
+	private CompletableFuture<Void> _processBatchEngineUnits(
+		Bundle bundle, Company company) {
+
 		Set<Long> companyIds = _bundleProcessedCompanies.computeIfAbsent(
 			bundle, key -> new HashSet<>());
 
 		if (companyIds.contains(company.getCompanyId())) {
-			return;
+			return CompletableFuture.completedFuture(null);
 		}
 
 		companyIds.add(company.getCompanyId());
 
-		_batchEngineUnitProcessor.processBatchEngineUnits(
+		return _batchEngineUnitProcessor.processBatchEngineUnits(
 			TransformUtil.transform(
 				_bundleBatchEngineUnits.get(bundle),
 				batchEngineUnit -> new CompanyBatchEngineUnitWrapper(
