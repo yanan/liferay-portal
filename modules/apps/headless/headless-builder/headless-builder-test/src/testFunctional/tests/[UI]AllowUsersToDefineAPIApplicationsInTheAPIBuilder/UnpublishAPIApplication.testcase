@@ -32,7 +32,7 @@ definition {
 
 	@priority = 4
 	test CanGetUnpublishedStatusInResponse {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -57,7 +57,7 @@ definition {
 
 	@priority = 4
 	test CanPromptUnpublishAPIApplicationDialog {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -72,7 +72,7 @@ definition {
 
 	@priority = 3
 	test CanShowAvailableButtonsAfterUnpublish {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -97,7 +97,7 @@ definition {
 
 	@priority = 4
 	test CanUnpublishThroughAPI {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -137,7 +137,7 @@ definition {
 
 	@priority = 4
 	test CanUpdatedToUnpublishedStatus {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 

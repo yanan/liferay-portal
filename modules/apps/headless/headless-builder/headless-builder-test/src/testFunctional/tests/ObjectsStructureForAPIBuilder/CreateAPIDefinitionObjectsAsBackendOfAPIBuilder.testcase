@@ -27,7 +27,7 @@ definition {
 
 	@priority = 4
 	test CanChangeApiApplicationStatus {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -66,7 +66,7 @@ definition {
 
 	@priority = 5
 	test CanCreateApiApplicationWithValidBaseUrl {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -96,7 +96,7 @@ definition {
 
 	@priority = 5
 	test CanCreateUnpublishedApiApplication {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -124,7 +124,7 @@ definition {
 
 	@priority = 5
 	test CanDeleteApiApplication {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -167,7 +167,7 @@ definition {
 
 	@priority = 5
 	test CannotCreateApiApplicationWithInvalidBaseUrl {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -207,7 +207,7 @@ definition {
 
 	@priority = 4
 	test CannotModifyApiApplicationWithInvalidStatusValue {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -248,7 +248,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiApplicationSchema {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -267,7 +267,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiApplicationSchemaFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -286,7 +286,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiApplicationSchemaNestedFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -305,7 +305,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiEndpointSchema {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -324,7 +324,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiEndpointSchemaFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -343,7 +343,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiEndpointSchemaNestedFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -362,7 +362,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiPropertySchema {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -381,7 +381,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiPropertySchemaFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -400,7 +400,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiPropertySchemaNestedFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -419,7 +419,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiSchemaSchema {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -438,7 +438,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiSchemaSchemaFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -457,7 +457,7 @@ definition {
 
 	@priority = 5
 	test CanSeeApiSchemaSchemaNestedFields {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -476,7 +476,7 @@ definition {
 
 	@priority = 5
 	test CanSeeHeadlessBuilderApplications {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 

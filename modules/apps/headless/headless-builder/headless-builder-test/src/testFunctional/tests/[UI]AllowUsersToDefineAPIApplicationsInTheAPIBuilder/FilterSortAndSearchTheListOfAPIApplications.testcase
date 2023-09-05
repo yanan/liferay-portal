@@ -47,7 +47,7 @@ definition {
 
 	@priority = 4
 	test CanFilterAPIsByExcludeStatus {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -77,7 +77,7 @@ definition {
 
 	@priority = 4
 	test CanFilterAPIsByLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -96,7 +96,7 @@ definition {
 
 	@priority = 4
 	test CanFilterAPIsByStatus {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -124,7 +124,7 @@ definition {
 
 	@priority = 4
 	test CanSearchAPIsByTitle {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -139,7 +139,7 @@ definition {
 
 	@priority = 4
 	test CanSearchAPIsWithoutAvailableOnes {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -156,7 +156,7 @@ definition {
 
 	@priority = 4
 	test CanSortAPIsByLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -173,7 +173,7 @@ definition {
 
 	@priority = 4
 	test CanSortAPIsByStatus {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -190,7 +190,7 @@ definition {
 
 	@priority = 4
 	test CanSortAPIsByTitle {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
