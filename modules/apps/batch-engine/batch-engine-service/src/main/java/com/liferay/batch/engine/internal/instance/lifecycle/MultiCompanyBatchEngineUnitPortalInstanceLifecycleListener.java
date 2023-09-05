@@ -8,6 +8,7 @@ package com.liferay.batch.engine.internal.instance.lifecycle;
 import com.liferay.batch.engine.internal.unit.MultiCompanyBatchEngineUnitProcessor;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
+import com.liferay.portal.kernel.instance.PortalInstancePool;
 import com.liferay.portal.kernel.model.Company;
 
 import org.osgi.service.component.annotations.Component;
@@ -25,7 +26,10 @@ public class MultiCompanyBatchEngineUnitPortalInstanceLifecycleListener
 
 	@Override
 	public void portalInstanceRegistered(Company company) throws Exception {
-		_multiCompanyBatchEngineUnitProcessor.processBatchEngineUnits(company);
+		if (PortalInstancePool.getWebId(company.getCompanyId()) != null) {
+			_multiCompanyBatchEngineUnitProcessor.processBatchEngineUnits(
+				company);
+		}
 	}
 
 	@Override
