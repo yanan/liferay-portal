@@ -36,7 +36,7 @@ definition {
 
 	@priority = 4
 	test CanAutoGenerateUrlBasedOnTitle {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -56,7 +56,7 @@ definition {
 
 	@priority = 4
 	test CanCreateAPIOnVirtualInstance {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 
 		task ("And Given create an API with title "test"") {
@@ -93,7 +93,7 @@ definition {
 
 	@priority = 4
 	test CanCreateApiWithValidFieldValues {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -135,7 +135,7 @@ definition {
 
 	@priority = 4
 	test CanCustomUrlInNewApiForm {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -163,7 +163,7 @@ definition {
 
 	@priority = 4
 	test CannotCreateApiWithExistingTitle {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
