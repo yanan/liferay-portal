@@ -12,6 +12,8 @@ definition {
 
 		User.firstLoginUI();
 
+		SearchAdministration.executeReindex();
+
 		task ("Given create an API application") {
 			ApplicationAPI.createAPIApplication(
 				baseURL = "app-test",
