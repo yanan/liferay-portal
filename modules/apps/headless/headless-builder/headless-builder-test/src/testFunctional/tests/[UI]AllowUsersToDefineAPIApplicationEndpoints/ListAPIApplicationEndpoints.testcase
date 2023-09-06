@@ -12,6 +12,8 @@ definition {
 
 		User.firstLoginUI();
 
+		SearchAdministration.executeReindex();
+
 		task ("Given an API application is created") {
 			ApplicationAPI.createAPIApplication(
 				baseURL = "my-app",
@@ -34,7 +36,7 @@ definition {
 
 	@priority = 5
 	test CanClickAddEndpointButtons {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -57,7 +59,7 @@ definition {
 
 	@priority = 4
 	test CanCopyURLOfAPIEndpoint {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -95,7 +97,7 @@ definition {
 
 	@priority = 4
 	test CanFilterEndpointAPIByCreationDateAsLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -127,7 +129,7 @@ definition {
 
 	@priority = 4
 	test CanFilterEndpointAPIByDateBeforeCreationAsLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -160,7 +162,7 @@ definition {
 
 	@priority = 5
 	test CanListCreatedEndpoint {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -190,7 +192,7 @@ definition {
 
 	@priority = 4
 	test CanOrderEndpointAPI {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -221,7 +223,7 @@ definition {
 
 	@priority = 4
 	test CanPaginateAPIEndpoints {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -260,7 +262,7 @@ definition {
 
 	@priority = 4
 	test CanSearchEndpointAPI {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -288,7 +290,7 @@ definition {
 
 	@priority = 5
 	test CanSeeAvailableFieldsAndActions {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -330,7 +332,7 @@ definition {
 
 	@priority = 4
 	test CanSeeNoEndpointAPIAndAddEndpointButton {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 

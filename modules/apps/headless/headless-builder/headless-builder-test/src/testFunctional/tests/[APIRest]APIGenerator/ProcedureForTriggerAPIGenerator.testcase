@@ -25,7 +25,7 @@ definition {
 
 	@priority = 4
 	test OpenAPIAvailableWhenAppPublishedAndServerRestarted {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("Given api-application with GET endpoint is published") {
 			ApplicationAPI.createAPIApplication(

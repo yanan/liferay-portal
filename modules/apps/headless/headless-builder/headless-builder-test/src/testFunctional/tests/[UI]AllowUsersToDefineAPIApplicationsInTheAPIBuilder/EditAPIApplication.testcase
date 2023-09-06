@@ -12,6 +12,8 @@ definition {
 
 		User.firstLoginUI();
 
+		SearchAdministration.executeReindex();
+
 		task ("Given create an API application") {
 			ApplicationAPI.createAPIApplication(
 				baseURL = "app-test",
@@ -32,7 +34,7 @@ definition {
 
 	@priority = 3
 	test CanNavigateToAppDetailsForm {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -55,7 +57,7 @@ definition {
 
 	@priority = 4
 	test CannotStoreModifiedValuesWithoutSaving {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -88,7 +90,7 @@ definition {
 
 	@priority = 4
 	test CanSaveModifiedValuesAndPublishApplication {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -126,7 +128,7 @@ definition {
 
 	@priority = 4
 	test CanSaveModifiedValuesForUnpublishedApplication {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
@@ -159,7 +161,7 @@ definition {
 
 	@priority = 3
 	test CanSeeEditOptionButton {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 		property test.run.type = "single";
 
