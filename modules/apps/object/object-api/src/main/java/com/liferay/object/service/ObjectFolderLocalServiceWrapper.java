@@ -379,6 +379,15 @@ public class ObjectFolderLocalServiceWrapper
 		return _objectFolderLocalService.getObjectFoldersCount();
 	}
 
+	@Override
+	public com.liferay.object.model.ObjectFolder
+			getOrCreateUncategorizedObjectFolder(long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _objectFolderLocalService.getOrCreateUncategorizedObjectFolder(
+			companyId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

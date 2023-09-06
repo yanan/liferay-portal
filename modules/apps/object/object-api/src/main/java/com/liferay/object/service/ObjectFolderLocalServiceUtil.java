@@ -331,6 +331,13 @@ public class ObjectFolderLocalServiceUtil {
 		return getService().getObjectFoldersCount();
 	}
 
+	public static ObjectFolder getOrCreateUncategorizedObjectFolder(
+			long companyId)
+		throws PortalException {
+
+		return getService().getOrCreateUncategorizedObjectFolder(companyId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
