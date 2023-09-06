@@ -14,7 +14,6 @@ import com.liferay.layout.service.LayoutClassedModelUsageLocalService;
 import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.constants.ObjectFieldSettingConstants;
-import com.liferay.object.constants.ObjectFolderConstants;
 import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.definition.tree.Edge;
 import com.liferay.object.definition.tree.Node;
@@ -64,6 +63,7 @@ import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectEntryService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectFolderItemLocalService;
+import com.liferay.object.service.ObjectFolderLocalService;
 import com.liferay.object.service.ObjectLayoutLocalService;
 import com.liferay.object.service.ObjectLayoutTabLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
@@ -1542,8 +1542,9 @@ public class ObjectDefinitionLocalServiceImpl
 		throws PortalException {
 
 		if (objectFolderId == 0) {
-			ObjectFolder objectFolder = _objectFolderPersistence.findByC_N(
-				companyId, ObjectFolderConstants.NAME_UNCATEGORIZED);
+			ObjectFolder objectFolder =
+				_objectFolderLocalService.getOrCreateUncategorizedObjectFolder(
+					companyId);
 
 			return objectFolder.getObjectFolderId();
 		}
@@ -2292,6 +2293,9 @@ public class ObjectDefinitionLocalServiceImpl
 
 	@Reference
 	private ObjectFolderItemLocalService _objectFolderItemLocalService;
+
+	@Reference
+	private ObjectFolderLocalService _objectFolderLocalService;
 
 	@Reference
 	private ObjectFolderPersistence _objectFolderPersistence;
