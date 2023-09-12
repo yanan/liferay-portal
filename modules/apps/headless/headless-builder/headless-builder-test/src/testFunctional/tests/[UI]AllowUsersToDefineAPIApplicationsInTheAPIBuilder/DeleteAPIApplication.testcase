@@ -34,7 +34,7 @@ definition {
 
 	@priority = 4
 	test CanDeleteAPIFromApiBuilderAndApi {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 
 		task ("And Given from dropdown menu I click Delete option") {
@@ -68,7 +68,7 @@ definition {
 
 	@priority = 4
 	test CanDeletePublishedApiAndAssociatedEntities {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 
 		task ("Given publish an API application in API Builder") {
@@ -126,7 +126,7 @@ definition {
 
 	@priority = 4
 	test CanDeleteUnpublishedApiAndAssociatedEntities {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 
 		task ("And Given with postAPISchema to create a Schema associate to the API application") {
@@ -180,7 +180,7 @@ definition {
 
 	@priority = 4
 	test CannotDeleteApiWithIncorrectTitleValue {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 
 		task ("And Given from dropdown menu I click Delete option") {
@@ -209,7 +209,7 @@ definition {
 
 	@priority = 4
 	test CanSeeDeleteApiApplicationDialog {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 		property test.liferay.virtual.instance = "false";
 
 		task ("When from dropdown menu I click Delete option") {

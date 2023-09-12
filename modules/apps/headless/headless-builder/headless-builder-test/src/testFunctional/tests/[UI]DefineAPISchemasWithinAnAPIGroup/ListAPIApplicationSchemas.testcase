@@ -34,7 +34,7 @@ definition {
 
 	@priority = 5
 	test CanClickAddNewSchemaButtons {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When I switch to Schemas in edit API application") {
 			APIBuilderUI.switchToRelatedEntryInEditApplication(
@@ -55,7 +55,7 @@ definition {
 
 	@priority = 4
 	test CanFilterSchemaByCreationDateAsLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given I create a schema associate to the API application") {
 			SchemaAPI.createAPISchema(
@@ -86,7 +86,7 @@ definition {
 
 	@priority = 4
 	test CanFilterSchemaByDateBeforeCreationAsLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given I create a schema associate to the API application") {
 			SchemaAPI.createAPISchema(
@@ -116,7 +116,7 @@ definition {
 
 	@priority = 5
 	test CanListExistingSchemaInEditAPIApplication {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postAPISchema to create a schema associate to the API application") {
 			SchemaAPI.createAPISchema(
@@ -140,7 +140,7 @@ definition {
 
 	@priority = 4
 	test CanOrderSchemasByLastUpdated {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postAPISchema to create two schemas associate to the API application") {
 			SchemaAPI.createNAPISchemas(
@@ -169,7 +169,7 @@ definition {
 
 	@priority = 4
 	test CanOrderSchemasByName {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postAPISchema to create two schemas associate to the API application") {
 			SchemaAPI.createNAPISchemas(
@@ -198,7 +198,7 @@ definition {
 
 	@priority = 4
 	test CanPaginateAPISchemas {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given with postAPISchema to create 11 schemas associate to the API application") {
 			SchemaAPI.createNAPISchemas(
@@ -235,7 +235,7 @@ definition {
 
 	@priority = 4
 	test CanSearchAPISchema {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("And Given I create a schema associate to the API application") {
 			SchemaAPI.createAPISchema(
@@ -259,7 +259,7 @@ definition {
 
 	@priority = 5
 	test CanSeeAvailableFieldsAndActions {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When I create a schema associate to the API application") {
 			SchemaAPI.createAPISchema(
@@ -297,7 +297,7 @@ definition {
 
 	@priority = 4
 	test CanSeeNoAPISchemaAndAddSchemaButton {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When I switch to Schemas in edit API application") {
 			APIBuilderUI.switchToRelatedEntryInEditApplication(
