@@ -699,7 +699,7 @@ definition {
 	@description = "Verify users can recall a template during an export."
 	@priority = 3
 	test CanRecallExportTemplate {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("Given an object defnition export template") {
 			ImportExport.openImportExportAdmin();
@@ -718,10 +718,14 @@ definition {
 
 			ImportExport.gotoExport();
 
+			takeScreenshot();
+
 			Select(
 				key_selectFieldLabel = "Template",
 				locator1 = "ImportExport#SELECT",
 				value1 = "Test Object Definition Export Template");
+
+			takeScreenshot();
 		}
 
 		task ("Then the export should be configured according to the template") {
