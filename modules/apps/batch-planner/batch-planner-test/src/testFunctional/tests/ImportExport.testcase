@@ -718,10 +718,14 @@ definition {
 
 			ImportExport.gotoExport();
 
+			takeScreenshot();
+
 			Select(
 				key_selectFieldLabel = "Template",
 				locator1 = "ImportExport#SELECT",
 				value1 = "Test Object Definition Export Template");
+
+			takeScreenshot();
 		}
 
 		task ("Then the export should be configured according to the template") {
