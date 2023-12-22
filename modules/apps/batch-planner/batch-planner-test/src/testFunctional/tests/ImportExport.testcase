@@ -699,7 +699,7 @@ definition {
 	@description = "Verify users can recall a template during an export."
 	@priority = 3
 	test CanRecallExportTemplate {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("Given an object defnition export template") {
 			ImportExport.openImportExportAdmin();
