@@ -321,8 +321,11 @@ definition {
 	@priority = 5
 	test PropertiesSectionIsPresentForSchema {
 		property portal.acceptance = "true";
+		property test.liferay.virtual.instance = "false";
 
 		task ("When in Schemas of APIApplication a 'University1' Schema based on University object created") {
+			SearchAdministration.executeReindex();
+
 			APIBuilderUI.switchToRelatedEntryInEditApplication(
 				entity = "Schemas",
 				title = "My-app");
