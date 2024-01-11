@@ -12,8 +12,8 @@ definition {
 
 		User.firstLoginPG();
 
-		task ("Given Custom Object Definition University with text field 'name' created and one-to-many relationship UniversityAddresses created") {
-			var universityId = ObjectDefinitionAPI.createObjectDefinition(
+		task ("Given Custom Object Definition University with text field 'name' created and one-to-many relationship UniversityAddresses created and published") {
+			var universityId = ObjectDefinitionAPI.createAndPublishObjectDefinition(
 				en_US_label = "University",
 				en_US_plural_label = "Universities",
 				name = "University",
@@ -233,7 +233,7 @@ definition {
 
 	@priority = 4
 	test FieldsOfRelatedObjectsAreAccessibleFromPropertiesSidebar {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When clicking 'View Related Objects' option in Properties sidebar") {
 			APIBuilderUI.goToEditRelatedEntryInEditApplication(
@@ -258,7 +258,7 @@ definition {
 
 	@priority = 5
 	test ObjectFieldsArePresentInPropertiesSidebar {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
 
 		task ("When going to Properties section in Schemas > University") {
 			APIBuilderUI.goToEditRelatedEntryInEditApplication(
@@ -320,9 +320,12 @@ definition {
 
 	@priority = 5
 	test PropertiesSectionIsPresentForSchema {
-		property portal.acceptance = "true";
+		property portal.acceptance = "ashley";
+		property test.liferay.virtual.instance = "false";
 
 		task ("When in Schemas of APIApplication a 'University1' Schema based on University object created") {
+			SearchAdministration.executeReindex();
+
 			APIBuilderUI.switchToRelatedEntryInEditApplication(
 				entity = "Schemas",
 				title = "My-app");
